@@ -3,11 +3,32 @@ import { Activity, ArrowRight, Building, Calendar, CheckCircle2, ClipboardList, 
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import executiveCalendarOverview from "@/assets/executive-calendar-management/overview.png";
+import executiveCalendarTracker from "@/assets/executive-calendar-management/tracker.png";
+import meetingPreparationTracker from "@/assets/executive-calendar-management/meeting-preparation.png";
+import taskDeadlineTracker from "@/assets/executive-calendar-management/task-deadline-tracker.png";
+import taskDeadlineFollowUp from "@/assets/executive-calendar-management/task-deadline-follow-up.png";
+import meetingAgenda1 from "@/assets/meeting-management/meeting-agenda-1.png";
+import meetingAgenda2 from "@/assets/meeting-management/meeting-agenda-2.png";
+import meetingMinutes1 from "@/assets/meeting-management/meeting-minutes-1.png";
+import meetingMinutes2 from "@/assets/meeting-management/meeting-minutes-2.png";
+import meetingMinutes3 from "@/assets/meeting-management/meeting-minutes-3.png";
+import meetingPreparations from "@/assets/meeting-management/meeting-preparations.png";
+import weeklyOperations from "@/assets/meeting-management/weekly-operations.png";
+import followUpSummary from "@/assets/meeting-management/follow-up-summary.png";
+import fileOrganizationDocumentManagement from "@/assets/file-organization/file-organization-document-management.png";
+import inboxManagement1 from "@/assets/inbox-management/1.png";
+import inboxManagement2 from "@/assets/inbox-management/2.png";
+import inboxManagement3 from "@/assets/inbox-management/3.png";
+import inboxManagement4 from "@/assets/inbox-management/4.png";
+import inboxManagement5 from "@/assets/inbox-management/5.png";
+import inboxManagementGmail from "@/assets/inbox-management/gmail.png";
 
 const PHRASES = [
   "Healthcare Virtual Assistant",
-  "GoHighLevel Specialist",
-  "Shopify Virtual Assistant"
+  "GoHighLevel Support",
+  "Shopify Virtual Assistant",
+  "Administrative/Executive Support"
 ];
 
 const Index = () => {
@@ -110,11 +131,11 @@ const Index = () => {
               <p className="text-xl md:text-2xl text-muted-foreground font-medium">Hi there. I'm</p>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">DONABEL TOLOMIA</h1>
               <div className="h-8 md:h-10 flex items-center justify-center lg:justify-start">
-                <h2 className={`text-2xl md:text-3xl font-semibold transition-colors duration-300 ${["text-[#81a1c1]", "text-primary", "text-[#95bf47]"][loopNum % PHRASES.length]}`}>{text || "\u00A0"}<span className={`animate-[pulse_1s_ease-in-out_infinite] border-r-2 ml-1 h-6 md:h-8 inline-block align-middle transition-colors duration-300 ${["border-[#81a1c1]", "border-primary", "border-[#95bf47]"][loopNum % PHRASES.length]}`}></span></h2>
+                <h2 className={`text-2xl md:text-3xl font-semibold transition-colors duration-300 ${["text-[#81a1c1]", "text-primary", "text-[#95bf47]", "text-[#1E3A5F]"][loopNum % PHRASES.length]}`}>{text || "\u00A0"}<span className={`animate-[pulse_1s_ease-in-out_infinite] border-r-2 ml-1 h-6 md:h-8 inline-block align-middle transition-colors duration-300 ${["border-[#81a1c1]", "border-primary", "border-[#95bf47]", "border-[#1E3A5F]"][loopNum % PHRASES.length]}`}></span></h2>
               </div>
               <div className="pt-4 max-w-2xl mx-auto lg:mx-0">
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  I provide specialized support for medical practices as a <strong className="text-foreground font-semibold">Healthcare Virtual Assistant</strong>, handling patient coordination and admin tasks so you can focus entirely on care. I also leverage my expertise as a <strong className="text-foreground font-semibold">GoHighLevel & Shopify Expert</strong> to build automated CRM systems and high-converting workflows that help both clinics and e-commerce brands scale efficiently.
+                  I help healthcare practices stay focused on patient care through dependable coordination and administration. For service businesses, I build <strong className="text-foreground font-semibold">GoHighLevel</strong> systems that capture, nurture, and follow up with leads; for e-commerce brands, I optimize <strong className="text-foreground font-semibold">Shopify</strong> stores for smoother customer journeys and stronger conversions. As an <strong className="text-foreground font-semibold">Administrative/Executive Support</strong> partner, I keep calendars, inboxes, documents, meetings, and priorities organized so leaders can make faster decisions and move their business forward.
                 </p>
               </div>
             </div>
@@ -149,7 +170,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Services</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Comprehensive support bridging healthcare administration, intelligent sales automation, and high-converting e-commerce.
+              Practical support that keeps operations organized, customer experiences strong, and growth systems moving.
             </p>
           </div>
 
@@ -354,6 +375,31 @@ const Index = () => {
               </p>
             </div>
           </div>
+
+          {/* Administrative & Executive Services */}
+          <div className="mt-16">
+            <div className="mb-8 flex items-center gap-6">
+              <h3 className="text-2xl font-bold tracking-tight text-[#1E3A5F]">Administrative/Executive Support</h3>
+              <div className="h-[1px] flex-grow bg-gradient-to-r from-[#1E3A5F]/50 to-transparent"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { icon: Calendar, title: "Executive Calendar & Meeting Coordination", service: "Manage schedules, prepare agendas and materials, document meetings, and keep action items visible from preparation through follow-up.", result: "Leaders stay prepared, meetings produce clear next steps, and important priorities do not slip through the cracks." },
+                { icon: Mail, title: "Inbox & Communication Management", service: "Triage incoming messages, identify urgent requests, draft professional responses, and maintain a reliable follow-up queue.", result: "A clearer inbox, quicker response times, and consistent communication with clients, vendors, and internal teams." },
+                { icon: ClipboardList, title: "Task, Deadline & Action-Item Tracking", service: "Organize requests, assign ownership, monitor deadlines and dependencies, and proactively follow up on outstanding work.", result: "Teams have accountability and visibility, enabling faster execution and fewer missed commitments." },
+                { icon: FileText, title: "Digital File & Document Management", service: "Create organized folder structures, standardize file naming, maintain document indexes, and support version control.", result: "Information is easy to find, documentation stays current, and the business runs with greater clarity and confidence." }
+              ].map((item, i) => (
+                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#1E3A5F]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(30,58,95,0.1)] group flex flex-col">
+                  <div className="h-14 w-14 rounded-2xl bg-[#1E3A5F]/10 flex items-center justify-center text-[#1E3A5F] mb-6 group-hover:scale-110 transition-transform"><item.icon className="h-7 w-7" /></div>
+                  <h3 className="text-xl font-bold mb-6">{item.title}</h3>
+                  <div className="space-y-4 flex-grow">
+                    <div><span className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider block mb-2">The Service</span><p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p></div>
+                    <div><span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span><p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -373,10 +419,13 @@ const Index = () => {
               { icon: Workflow, text: "Build automated workflows in GoHighLevel" },
               { icon: Mail, text: "Implement follow-ups (email/SMS)" },
               { icon: TrendingUp, text: "Continuously improve performance" },
-              { icon: Activity, text: "Streamline healthcare admin and patient coordination" }
+              { icon: Activity, text: "Streamline healthcare admin and patient coordination" },
+              { icon: Calendar, text: "Keep executive calendars, meetings, and priorities on track", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" },
+              { icon: ClipboardList, text: "Turn tasks and action items into clear ownership and follow-through", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" },
+              { icon: FileText, text: "Build organized inbox and document systems that save time and reduce risk", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" }
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-5 p-6 rounded-3xl border border-white/5 bg-[#0a0a0a] hover:border-primary/30 transition-all group shadow-sm">
-                <div className="h-14 w-14 shrink-0 rounded-2xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+              <div key={i} className={`flex items-center gap-5 p-6 rounded-3xl border border-white/5 bg-[#0a0a0a] ${item.hover ?? "hover:border-primary/30"} transition-all group shadow-sm`}>
+                <div className={`h-14 w-14 shrink-0 rounded-2xl ${item.bg ?? "bg-primary/10 border border-primary/10"} flex items-center justify-center ${item.color ?? "text-primary"} group-hover:scale-110 transition-transform`}>
                   <item.icon className="h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-semibold leading-snug text-foreground/90">{item.text}</h3>
@@ -448,7 +497,7 @@ const Index = () => {
         </div>
 
         {/* Shopify Workflow */}
-        <div>
+        <div className="mb-20">
           <div className="mb-10 flex items-center gap-6">
             <h3 className="text-2xl font-bold tracking-tight text-[#95bf47]">Shopify Workflow</h3>
             <div className="h-[1px] flex-grow bg-gradient-to-r from-[#95bf47]/50 to-transparent"></div>
@@ -473,6 +522,30 @@ const Index = () => {
             ))}
           </div>
         </div>
+
+        {/* Administrative & Executive Workflow */}
+        <div>
+          <div className="mb-10 flex items-center gap-6">
+            <h3 className="text-2xl font-bold tracking-tight text-[#1E3A5F]">Administrative/Executive Workflow</h3>
+            <div className="h-[1px] flex-grow bg-gradient-to-r from-[#1E3A5F]/50 to-transparent"></div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#1E3A5F]/20 to-transparent -z-10"></div>
+            {[
+              { num: "01", icon: Target, title: "Align on Priorities", desc: "Learn your goals, preferred communication style, and the work that needs attention first" },
+              { num: "02", icon: ClipboardList, title: "Create Structure", desc: "Set up clear systems for calendars, inboxes, tasks, documents, and recurring workflows" },
+              { num: "03", icon: CheckCircle2, title: "Coordinate & Follow Through", desc: "Track details, manage deadlines, and keep stakeholders informed with timely follow-ups" },
+              { num: "04", icon: TrendingUp, title: "Refine for Growth", desc: "Improve routines and reporting so your business gains back time and operates more smoothly" },
+            ].map((step, i) => (
+              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-[#1E3A5F]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+                <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-[#1E3A5F]/[0.05] transition-colors pointer-events-none">{step.num}</div>
+                <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#1E3A5F] mb-6 group-hover:scale-110 transition-transform z-10"><step.icon className="h-7 w-7" /></div>
+                <h3 className="text-xl font-bold mb-3 z-10">{step.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed z-10">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Selected Works - Reduced for brevity, showing structure */}
@@ -484,18 +557,24 @@ const Index = () => {
 
           <Tabs defaultValue="ghl" className="w-full">
             <div className="flex justify-center mb-12">
-              <TabsList className="bg-card border border-white/10 h-auto p-1.5 rounded-full">
+              <TabsList className="h-auto flex-wrap justify-center bg-card border border-white/10 p-1.5 rounded-3xl">
                 <TabsTrigger 
                   value="ghl" 
-                  className="rounded-full px-8 py-3 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
                 >
                   GoHighLevel
                 </TabsTrigger>
                 <TabsTrigger 
                   value="shopify" 
-                  className="rounded-full px-8 py-3 text-base data-[state=active]:bg-[#95bf47] data-[state=active]:text-white transition-all"
+                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#95bf47] data-[state=active]:text-white transition-all"
                 >
                   Shopify
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="admin" 
+                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white transition-all"
+                >
+                  Administrative/Executive Support
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -872,6 +951,260 @@ const Index = () => {
 
               </div>
             </TabsContent>
+
+            <TabsContent value="admin" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 01</div>
+                <h4 className="text-3xl md:text-4xl font-bold mb-8">Executive Calendar Management</h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-6">
+                    <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                      <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-[#1E3A5F]" /> Objective</h5>
+                      <p className="text-muted-foreground leading-relaxed">Organize and maintain an executive&apos;s weekly schedule while tracking priorities, preparation requirements, and follow-up actions.</p>
+                    </div>
+                    <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                      <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-[#1E3A5F]" /> Tools</h5>
+                      <p className="text-muted-foreground">Google Calendar • Google Sheets</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="p-6 md:p-8 rounded-3xl bg-[#1E3A5F]/[0.02] border border-[#1E3A5F]/20">
+                      <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><ClipboardList className="w-5 h-5 text-[#1E3A5F]" /> Deliverables</h5>
+                      <ul className="space-y-4">
+                        {["Executive Calendar", "Scheduling Tracker", "Meeting Preparation Tracker", "Executive Weekly Brief"].map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <CheckCircle2 className="w-5 h-5 text-[#1E3A5F] shrink-0 mt-0.5" />
+                            <span className="text-foreground">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                      <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Calendar className="w-5 h-5 text-[#1E3A5F]" /> Skills Demonstrated</h5>
+                      <p className="text-muted-foreground leading-relaxed">Calendar Management • Scheduling • Prioritization • Time Management • Attention to Detail • Executive Support</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                  {[
+                    { src: executiveCalendarOverview, alt: "Executive Calendar Overview" },
+                    { src: executiveCalendarTracker, alt: "Executive Scheduling Tracker" },
+                    { src: meetingPreparationTracker, alt: "Meeting Preparation Tracker" },
+                  ].map((image) => (
+                    <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                      <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                      <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+
+                <div className="pt-12 mt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 02</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">Task &amp; Deadline Management</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-[#1E3A5F]" /> Objective</h5>
+                        <p className="text-muted-foreground leading-relaxed">Created a simulated executive task management system to organize administrative requests, assign responsibilities, track deadlines, identify dependencies, and manage follow-ups.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-[#1E3A5F]" /> Tools</h5>
+                        <p className="text-muted-foreground">Google Sheets</p>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-[#1E3A5F]/[0.02] border border-[#1E3A5F]/20">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><ClipboardList className="w-5 h-5 text-[#1E3A5F]" /> Deliverables</h5>
+                        <ul className="space-y-4">
+                          {["Executive Task Tracker", "Priority & Status System", "Automated Days-Remaining Calculation", "Weekly Dashboard", "Follow-Up Queue"].map((item) => (
+                            <li key={item} className="flex items-start gap-3">
+                              <CheckCircle2 className="w-5 h-5 text-[#1E3A5F] shrink-0 mt-0.5" />
+                              <span className="text-foreground">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Calendar className="w-5 h-5 text-[#1E3A5F]" /> Skills Demonstrated</h5>
+                        <p className="text-muted-foreground leading-relaxed">Task Management • Prioritization • Deadline Tracking • Delegation • Follow-Up • Data Organization • Attention to Detail</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                    {[
+                      { src: taskDeadlineTracker, alt: "Task and Deadline Tracker" },
+                      { src: taskDeadlineFollowUp, alt: "Summary" },
+                    ].map((image) => (
+                      <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                        <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                        <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-12 mt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 03</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-2">Meeting Management</h4>
+                  <p className="text-[#1E3A5F] font-medium mb-8">Northstar Consulting Group</p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-[#1E3A5F]" /> Objective</h5>
+                        <p className="text-muted-foreground leading-relaxed">Managed a simulated weekly executive operations meeting from preparation through post-meeting follow-up, including agenda preparation, meeting documentation, action-item tracking, and follow-up communication.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-[#1E3A5F]" /> Tools</h5>
+                        <p className="text-muted-foreground">Google Calendar &bull; Google Docs &bull; Google Sheets</p>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-[#1E3A5F]/[0.02] border border-[#1E3A5F]/20">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><ClipboardList className="w-5 h-5 text-[#1E3A5F]" /> Deliverables</h5>
+                        <ul className="space-y-3">
+                          {["Meeting Agenda", "Meeting Minutes", "Action Item Tracker", "Meeting Preparation Tracker", "Follow-Up Summary"].map((item) => (
+                            <li key={item} className="flex items-start gap-3">
+                              <CheckCircle2 className="w-5 h-5 text-[#1E3A5F] shrink-0 mt-0.5" />
+                              <span className="text-foreground">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Calendar className="w-5 h-5 text-[#1E3A5F]" /> Skills Demonstrated</h5>
+                        <p className="text-muted-foreground leading-relaxed">Meeting Coordination &bull; Agenda Preparation &bull; Note-Taking &bull; Documentation &bull; Action-Item Management &bull; Follow-Up &bull; Deadline Tracking &bull; Executive Support</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8 space-y-10">
+                    <div>
+                      <h5 className="text-xl font-bold mb-4">Meeting Agenda</h5>
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {[
+                          { src: meetingAgenda1, alt: "Meeting agenda overview" },
+                          { src: meetingAgenda2, alt: "Meeting agenda details" },
+                          { src: meetingMinutes1, alt: "Meeting agenda document" },
+                        ].map((image) => (
+                          <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                            <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                            <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-xl font-bold mb-4">Meeting Minutes</h5>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {[
+                          { src: meetingMinutes2, alt: "Meeting minutes" },
+                          { src: meetingMinutes3, alt: "Meeting minutes action items" },
+                        ].map((image) => (
+                          <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                            <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                            <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {[
+                        { src: meetingPreparations, alt: "Meeting Preparation Tracker" },
+                        { src: weeklyOperations, alt: "Weekly Operations Action Item Tracker" },
+                        { src: followUpSummary, alt: "Follow-Up Summary" },
+                      ].map((image) => (
+                        <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                          <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                          <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-12 mt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 04</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-2">File Organization &amp; Document Management</h4>
+                  <p className="text-[#1E3A5F] font-medium mb-8">Northstar Consulting Group</p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-[#1E3A5F]" /> Objective</h5>
+                        <p className="text-muted-foreground leading-relaxed">Designed and implemented a simulated digital filing system to organize business documents, standardize file naming, manage document versions, identify files requiring review, and improve document retrieval.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-[#1E3A5F]" /> Tools</h5>
+                        <p className="text-muted-foreground">Google Drive &bull; Google Docs &bull; Google Sheets</p>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-[#1E3A5F]/[0.02] border border-[#1E3A5F]/20">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><ClipboardList className="w-5 h-5 text-[#1E3A5F]" /> Deliverables</h5>
+                        <ul className="space-y-3">
+                          {["Digital Folder Structure", "File Naming Convention", "File Index", "Organization Log", "Digital File Management SOP", "Before & After Organization Demonstration"].map((item) => (
+                            <li key={item} className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-[#1E3A5F] shrink-0 mt-0.5" /><span className="text-foreground">{item}</span></li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Calendar className="w-5 h-5 text-[#1E3A5F]" /> Skills Demonstrated</h5>
+                        <p className="text-muted-foreground leading-relaxed">Digital File Management &bull; Document Organization &bull; Naming Conventions &bull; Version Control &bull; Data Organization &bull; Administrative Systems &bull; Attention to Detail &bull; Confidentiality Awareness</p>
+                      </div>
+                    </div>
+                  </div>
+                  <figure className="mt-8 overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                    <img src={fileOrganizationDocumentManagement} alt="File organization and document management demonstration" className="w-full object-contain" />
+                    <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">File Organization &amp; Document Management</figcaption>
+                  </figure>
+                </div>
+
+                <div className="pt-12 mt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 05</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-2">Executive Inbox Management</h4>
+                  <p className="text-[#1E3A5F] font-medium mb-8">Northstar Consulting Group</p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-[#1E3A5F]" /> Objective</h5>
+                        <p className="text-muted-foreground leading-relaxed">Created a simulated executive inbox management workflow to triage incoming communications, prioritize time-sensitive requests, identify messages requiring executive attention, draft appropriate responses, and maintain follow-up tracking.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-[#1E3A5F]" /> Tools</h5>
+                        <p className="text-muted-foreground">Gmail &bull; Google Sheets &bull; Google Docs</p>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-[#1E3A5F]/[0.02] border border-[#1E3A5F]/20">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><ClipboardList className="w-5 h-5 text-[#1E3A5F]" /> Deliverables</h5>
+                        <ul className="space-y-3">
+                          {["Executive Inbox Triage Tracker", "Email Response Tracker", "Draft Email Responses", "Follow-Up Queue", "Inbox Management SOP", "Simulated Gmail Labeling System"].map((item) => (
+                            <li key={item} className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-[#1E3A5F] shrink-0 mt-0.5" /><span className="text-foreground">{item}</span></li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Calendar className="w-5 h-5 text-[#1E3A5F]" /> Skills Demonstrated</h5>
+                        <p className="text-muted-foreground leading-relaxed">Email Management &bull; Inbox Triage &bull; Prioritization &bull; Professional Communication &bull; Executive Support &bull; Follow-Up Management &bull; Delegation &bull; Escalation &bull; Attention to Detail</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                    {[
+                      { src: inboxManagement1, alt: "Executive inbox triage tracker" },
+                      { src: inboxManagement2, alt: "Email response tracker" },
+                      { src: inboxManagement3, alt: "Draft email responses" },
+                      { src: inboxManagement4, alt: "Inbox follow-up queue" },
+                      { src: inboxManagement5, alt: "Inbox management SOP" },
+                      { src: inboxManagementGmail, alt: "Gmail Labeling System" },
+                    ].map((image) => (
+                      <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                        <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
+                        <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
       </section>
@@ -1014,38 +1347,6 @@ const Index = () => {
               <CarouselNext className="border-white/10 hover:bg-white/10 hover:text-white" />
             </Carousel>
           </div>
-        </div>
-      </section>
-
-      {/* Client Reviews */}
-      <section className="py-24 px-6 container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Client Reviews</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            What people are saying about my work.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { name: "Elena V.", position: "E-commerce Founder", text: "I was struggling to get my Shopify store looking professional and actually converting. Donabel came in, cleaned up the messy design, and set up abandoned cart emails that started bringing back customers on day one. She made the whole process so easy to understand." },
-            { name: "Marcus D.", position: "Agency Owner", text: "Before working with Donabel, leads were slipping through the cracks because our follow-up was all over the place. She built out a proper pipeline and automated our responses. For the first time, I actually know where every prospect is in our sales process without checking three different spreadsheets." },
-            { name: "Priya K.", position: "Clinic Director", text: "I used to spend hours manually texting clients to remind them about appointments. Donabel set up a booking system that handles everything automatically. Not only do I save hours every week, but my no-show rate has basically dropped to zero. Best investment I've made for my clinic." }
-          ].map((review, i) => (
-            <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-primary/30 transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex gap-1 text-primary mb-6">
-                  {[...Array(5)].map((_, j) => (
-                    <svg key={j} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                  ))}
-                </div>
-                <p className="text-muted-foreground leading-relaxed italic mb-8">"{review.text}"</p>
-              </div>
-              <div>
-                <p className="font-bold text-foreground">{review.name}</p>
-                <p className="text-sm text-muted-foreground mt-1">{review.position}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

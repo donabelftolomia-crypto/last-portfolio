@@ -1,5 +1,6 @@
 ﻿import * as React from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type EmblaOptionsType = any;
@@ -75,8 +76,15 @@ const CarouselButton = React.forwardRef<HTMLButtonElement, React.ComponentPropsW
           "inline-flex h-11 w-11 items-center justify-center rounded-full border bg-background/80 text-foreground shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           className,
         )}
+        aria-label={direction === "prev" ? "Previous slide" : "Next slide"}
         {...props}
-      />
+      >
+        {direction === "prev" ? (
+          <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+        ) : (
+          <ChevronRight className="h-5 w-5" aria-hidden="true" />
+        )}
+      </button>
     );
   },
 );
