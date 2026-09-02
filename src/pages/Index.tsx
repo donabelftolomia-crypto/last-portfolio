@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Activity, ArrowRight, Building, Calendar, CheckCircle2, ClipboardList, Filter, LayoutDashboard, Mail, MessageSquare, MousePointerClick, Network, Paintbrush, Rocket, ShoppingBag, Store, Target, TrendingUp, Users, Workflow, Wrench, Zap, Bot, Code, Palette, FileText, PenTool, Video, MessageCircle, Cloud } from "lucide-react";
+import { useState, useEffect, type MouseEvent } from "react";
+import { Activity, ArrowRight, Building, Calendar, CheckCircle2, Filter, LayoutDashboard, Mail, Maximize2, MessageSquare, MousePointerClick, Network, Paintbrush, Rocket, ShoppingBag, Store, Target, TrendingUp, Users, Workflow, Wrench, Zap, Bot, Code, Palette, FileText, PenTool, Video, MessageCircle, Cloud } from "lucide-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -30,6 +30,25 @@ const PHRASES = [
   "Shopify Virtual Assistant",
   "Administrative/Executive Support"
 ];
+
+const MediaCard = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => {
+  const openFullscreen = (event: MouseEvent<HTMLButtonElement>) => {
+    const image = event.currentTarget.parentElement?.querySelector("img");
+    image?.requestFullscreen?.();
+  };
+
+  return (
+    <figure className="overflow-hidden rounded-3xl bg-card border border-white/5">
+      <div className="relative bg-black/20 p-2">
+        <img src={src} alt={alt} className="w-full h-auto max-h-[75vh] object-contain" />
+        <button type="button" onClick={openFullscreen} aria-label={`View ${alt} fullscreen`} title="View fullscreen" className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg hover:bg-primary hover:text-primary-foreground transition-colors">
+          <Maximize2 className="h-4 w-4" />
+        </button>
+      </div>
+      {caption && <figcaption className="p-6 text-muted-foreground leading-relaxed">{caption}</figcaption>}
+    </figure>
+  );
+};
 
 const Index = () => {
   const [text, setText] = useState("");
@@ -583,7 +602,142 @@ const Index = () => {
               <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div>
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 01</div>
-                  <h4 className="text-3xl md:text-4xl font-bold mb-8">Funnel/Website & Automation System</h4>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL CRM & Contact Management</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Target className="w-5 h-5 text-primary" /> Objective</h5>
+                        <p className="text-muted-foreground leading-relaxed">Build a structured CRM system that organizes contacts, captures custom information, maintains clean records, and enables targeted segmentation.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><LayoutDashboard className="w-5 h-5 text-primary" /> Skills Demonstrated</h5>
+                        <ul className="space-y-4">
+                          {[
+                            "Contact management",
+                            "Custom fields",
+                            "Tags",
+                            "CRM segmentation",
+                            "CSV importing",
+                            "Duplicate management",
+                            "DND management",
+                            "Multi-condition filtering"
+                          ].map((item, i) => (
+                            <li key={i} className="flex items-start gap-3">
+                              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                              <span className="text-muted-foreground">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20">
+                        <h5 className="text-lg font-bold mb-6 flex items-center gap-3"><Zap className="w-5 h-5 text-primary" /> Result</h5>
+                        <p className="text-foreground leading-relaxed">Created a structured contact database that can be segmented by lead status, customer information, and business-specific criteria, providing a foundation for targeted campaigns and automated workflows.</p>
+                      </div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-lg font-bold mb-4 flex items-center gap-3"><Wrench className="w-5 h-5 text-primary" /> Tools</h5>
+                        <p className="text-muted-foreground">GoHighLevel</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                    {[
+                      {
+                        src: "/crm/contact-list.png",
+                        title: "Contact Database Setup",
+                        caption: "Created and organized a structured contact database with contact information and CRM tags."
+                      },
+                      {
+                        src: "/crm/custom-fields.png",
+                        title: "Custom CRM Fields",
+                        caption: "Created custom fields to capture business-specific lead information for future segmentation and automation."
+                      },
+                      {
+                        src: "/crm/hot-lead-filter.png",
+                        title: "Lead Segmentation",
+                        caption: "Created and applied lead-status tags and used CRM filtering to isolate specific lead segments for targeted follow-up."
+                      },
+                      {
+                        src: "/crm/csv-import.png",
+                        title: "CRM Data Import",
+                        caption: "Imported a batch of contacts into GHL and organized the records for CRM management."
+                      },
+                      {
+                        src: "/crm/dnd.png",
+                        title: "Communication Preference Management",
+                        caption: "Configured SMS Do Not Disturb settings to prevent unwanted text communication."
+                      },
+                      {
+                        src: "/crm/dental-crm.png",
+                        title: "Healthcare CRM Structure",
+                        caption: "Designed a fictional dental clinic CRM structure using lifecycle stages, custom fields, and contact segmentation."
+                      }
+                    ].map((screenshot) => (
+                      <MediaCard key={screenshot.src} src={screenshot.src} alt={screenshot.title} caption={screenshot.caption} />
+                    ))}
+                  </div>
+                </div>
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 02</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Pipelines & Opportunity Management</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Build and manage sales pipelines that visually represent different customer journeys, track opportunities through each stage, and monitor potential revenue.</p></div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Tools</h5><p className="text-muted-foreground">GoHighLevel</p></div>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Pipeline creation and customization • Opportunity management • Sales stage configuration • Deal value and close date tracking • Lost opportunity management • Multiple pipeline design • Pipeline segmentation • Pipeline aging preparation</p></div>
+                      <div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and managed two sales pipelines: a high-ticket Website Design process and a recurring Home Cleaning service process. Demonstrated opportunity movement, deal values, close dates, and structures matched to different sales cycles.</p></div>
+                    </div>
+                  </div>
+                  <h5 className="text-2xl font-bold mt-10 mb-4">Website Design Sales</h5>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <MediaCard src="/pipelines/pipeline-stages-1.png" alt="Screenshot 1 - Pipeline Stages" caption="Sales Pipeline Setup - Built a Website Design sales pipeline with defined stages and created opportunities with assigned deal values to represent the sales process from new lead to close. Opportunity & Pipeline Management - Managed opportunities through different sales stages, recorded a lost-deal reason, and maintained deal values to reflect the current sales pipeline." />
+                    <MediaCard src="/pipelines/pipeline-stages-1-2.png" alt="Screenshot 1.2 - Pipeline Stages" />
+                    <MediaCard src="/pipelines/maria-opportunity-details.png" alt="Screenshot 2 - Maria's Opportunity Details" caption="Opportunity Data Management - Configured opportunity details including pipeline stage, deal value, and expected close date for sales tracking and forecasting." />
+                  </div>
+                  <h5 className="text-2xl font-bold mt-10 mb-4">Home Cleaning Pipeline</h5>
+                  <MediaCard src="/pipelines/home-cleaning-pipeline.png" alt="Screenshot 3 - Home Cleaning Pipeline" caption="Different Businesses Require Different Pipeline Logic. Website Design is high-ticket, has a longer sales cycle, proposal and negotiation, and is a one-time project. Home Cleaning is lower-cost, faster-moving, quote and scheduling based, and recurring. These structures match each business model's sales and service-delivery needs." />
+                  <MediaCard src="/pipelines/pipeline-aging.png" alt="Screenshot 4 - Pipeline Aging" caption="Pipeline Aging Preparation - Created an intentionally aging opportunity to simulate a stalled lead and provide a test case for future automated follow-up workflows." />
+                </div>
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 03</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Calendars & Appointment Booking</h4>
+                  <div className="grid md:grid-cols-2 gap-6"><div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Build and manage appointment calendars that provide a professional booking experience, automate confirmations and reminders, support multiple appointment types, and prevent scheduling conflicts.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground">GoHighLevel • Google Calendar</p></div><div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Calendar creation • Availability and working hours • Duration and buffer settings • Public booking pages • Confirmations and reminders • Multiple appointment types • Google Calendar synchronization • Double-booking prevention • Testing and validation</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and tested 30-minute Discovery Call, 60-minute Consultation, and 15-minute Follow-Up Call calendars with different availability windows, automated reminders, Google Calendar synchronization, and conflict prevention.</p></div></div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8"><MediaCard src="/calendar/discovery-call.png" alt="Screenshot 1 - Discovery Call" /><MediaCard src="/calendar/follow-up-call.png" alt="Screenshot 2 - Follow-up Call" /><MediaCard src="/calendar/consultation.png" alt="Screenshot 3 - Consultation" /></div>
+                </div>
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 04</div><h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Forms & Surveys</h4>
+                  <div className="grid md:grid-cols-2 gap-6"><div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Create customer-facing forms and surveys that collect structured lead information and send submitted data into GHL CRM for segmentation, qualification, and automation.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground leading-relaxed">GoHighLevel • GHL Forms & Surveys • GHL CRM • Custom Fields</p></div><div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Form and survey creation • Custom field mapping • Dropdown configuration • CRM data capture • Form branding • Publishing and testing • Lead segmentation • Multi-step survey setup</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and tested a Website Design Intake Form capturing contact information, service interest, and budget range, mapped to CRM fields for segmentation, qualification, and workflows.</p></div></div>
+                  <div className="mt-8 p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">How It Works: Form → CRM → Automation</h5><p className="text-muted-foreground leading-relaxed">1. Lead completes the form and provides contact details, service interest, and budget. 2. Data enters the CRM through mapped Service Interest and Budget fields. 3. Data becomes actionable for segmentation, qualification, and workflow triggers. Multiple test entries were submitted and verified on the corresponding CRM contact records.</p></div>
+                  <div className="mt-8 max-w-3xl"><MediaCard src="/form/website-design-intake.png" alt="Screenshot 1 - Website Design Intake Form" /></div>
+                </div>
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 05</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">Workflows & Automation</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {[
+                      ["1. New Lead Instant Response", "Create an automated first response whenever a new lead submits a form or enters the CRM, acknowledging the lead immediately while notifying the team.", "GoHighLevel CRM • Workflows • Forms • Email • SMS • Tags • Custom Fields", "Workflow automation • Form-to-CRM automation • Lead capture • SMS/email automation • Internal notifications • Contact tagging", "When a new lead submits the intake form, GHL creates or updates the contact, applies a lead tag, sends an SMS or email confirmation, and notifies the assigned team member. Reduces response time and prevents overlooked leads."],
+                      ["2. Lead Qualification", "Automatically evaluate incoming leads based on their information and route them according to qualification status.", "GoHighLevel CRM • Workflows • Forms/Surveys • If/Else Conditions • Custom Fields • Tags • Pipelines", "Conditional logic • Lead qualification • CRM segmentation • Pipeline management • Automated lead routing", "The workflow checks service interest, budget, or business needs, then routes qualified leads to the appropriate pipeline stage and others to nurture. Helps teams prioritize high-potential leads."],
+                      ["3. Unresponsive Lead Nurture", "Automatically follow up with leads who have not responded, maintaining engagement without manual follow-ups.", "GoHighLevel CRM • Workflows • SMS • Email • Wait Steps • If/Else Conditions • Tags", "Multi-step automation • Lead nurturing • Conditional logic • Follow-up sequencing", "After an initial contact, the workflow waits, checks for a reply or booking, and sends additional follow-ups only when needed. Creates consistent follow-up while reducing manual chasing."],
+                      ["5. Lost Opportunity Re-Engagement", "Reconnect with leads whose opportunities were marked as lost and give them another opportunity to engage.", "GoHighLevel CRM • Opportunities • Workflows • Tags • SMS • Email • Wait Steps • Pipeline", "Re-engagement automation • Opportunity management • Segmentation • Multi-step campaigns", "When an opportunity is marked lost, the workflow waits before sending a re-engagement message, then stops, notifies the team, or continues based on the lead response."],
+                      ["6. Appointment Booking Confirmation", "Automatically confirm newly booked appointments and provide important appointment details.", "GoHighLevel Calendars • Workflows • SMS • Email • CRM • Custom Values", "Calendar automation • Appointment workflows • Automated confirmations • Custom values", "When a contact books, GHL sends a confirmation with the appointment date, time, and meeting details, reducing uncertainty and saving staff time."],
+                      ["7. Appointment Reminder", "Reduce missed appointments by automatically reminding contacts before their scheduled appointment.", "GoHighLevel Calendars • Workflows • SMS • Email • Wait Steps • Custom Values", "Appointment automation • Time-based workflows • SMS/email reminders • Calendar integration", "The workflow waits until the appropriate time and sends reminders, such as one day before and a few hours before the appointment, supporting attendance."],
+                      ["8. No-Show Recovery", "Follow up with contacts who miss their appointment and encourage them to reschedule.", "GoHighLevel Calendars • Workflows • Appointment Status • If/Else Conditions • SMS • Email • Calendar • Pipeline", "Appointment-status automation • Conditional workflows • No-show recovery • Rescheduling automation • Lead nurturing", "When an appointment is marked No-Show, the workflow asks whether the contact would like to reschedule and can stop or move them back into the pipeline when they respond or book again."]
+                    ].map(([title, objective, tools, skills, howItWorks]) => (
+                      <article key={title} className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+                        <h5 className="text-xl font-bold mb-4">{title}</h5><p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Objective:</strong> {objective}</p><p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Tools:</strong> {tools}</p><p className="text-muted-foreground leading-relaxed"><strong className="text-foreground">Skills:</strong> {skills}</p><p className="text-muted-foreground leading-relaxed mt-4"><strong className="text-foreground">How It Works / Result:</strong> {howItWorks}</p>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    <MediaCard src="/workflow/appointment-confirmation.png" alt="Appointment Confirmation workflow" /><MediaCard src="/workflow/appointment-reminder.png" alt="Appointment Reminder workflow" /><MediaCard src="/workflow/lead-qualification.png" alt="Lead Qualification workflow" /><MediaCard src="/workflow/lost-opportunity-reengagement.png" alt="Lost Opportunity Re-engagement workflow" /><MediaCard src="/workflow/new-lead-instant-response.png" alt="New Lead Instant Response workflow" /><MediaCard src="/workflow/no-show.png" alt="No-Show Recovery workflow" /><MediaCard src="/workflow/unresponsive-lead-nurture.png" alt="Unresponsive Lead Nurture workflow" />
+                  </div>
+                </div>
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 06</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">Funnels & Websites</h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-6">
                       <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
@@ -635,11 +789,7 @@ const Index = () => {
                     {[
                       "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad630a69f1e766a2655c.mp4",
                       "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad638d08689eb266a0ef.mp4",
-                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad64dbe569a25d7be1ae.mp4",
-                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad63ea36308bcf821aa8.mp4",
-                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad630a69f1e766a2655a.mp4",
-                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad63dbe569a25d7be195.mp4",
-                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad630a69f1e766a2655d.mp4"
+                      "https://assets.cdn.filesafe.space/6zd6WAGY5GB6oaHtIccb/media/6a08ad64dbe569a25d7be1ae.mp4"
                     ].map((src, i) => (
                       <video 
                         key={i} 
@@ -652,9 +802,19 @@ const Index = () => {
                     ))}
                   </div>
                 </div>
-                {/* Case Study 02 */}
                 <div className="pt-12 border-t border-white/5">
-                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 02</div>
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 07</div>
+                  <h4 className="text-3xl md:text-4xl font-bold mb-8">Social Media Content Calendar</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Create a structured two-week social media content calendar for a fictional consulting business, organizing posts by date, platform, caption direction, and visual concept while balancing promotional, educational, and engagement content.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground">Google Sheets • Microsoft Excel • Canva</p></div>
+                    <div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Social media content planning • Content calendar creation • Content organization • Promotional, educational, and engagement planning • Caption and visual idea development • Platform-based spreadsheet management</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created a 2-week calendar containing 10 planned posts for Bright Path Consulting, organized by date, platform, caption idea, and visual concept so another person could understand what to post and when.</p></div>
+                  </div>
+                  <div className="mt-8 max-w-4xl"><MediaCard src="/social-media/content-calendar.png" alt="Social Media Planner" caption="Social Media Content Planning - 2-Week Content Calendar. A sample content calendar created for a fictional consulting business before scheduling and publishing, with 10 posts across different purposes, platforms, caption directions, and visual ideas." /></div>
+                </div>
+                {false && (<>
+                {/* Legacy CRM and calendar case studies retained in source for reference */}
+                <div className="pt-12 border-t border-white/5">
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 03</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">CRM & Pipeline Setup</h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-6">
@@ -719,7 +879,7 @@ const Index = () => {
                 </div>
                 {/* Case Study 03 */}
                 <div className="pt-12 border-t border-white/5">
-                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 03</div>
+                  <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 04</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">Calendar & Booking System</h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-6">
@@ -780,6 +940,7 @@ const Index = () => {
                     ))}
                   </div>
                 </div>
+                </>)}
                 {/* Other case studies would follow similarly */}
               </div>
             </TabsContent>
