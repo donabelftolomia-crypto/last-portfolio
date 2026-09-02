@@ -1,5 +1,5 @@
-import { useState, useEffect, type MouseEvent } from "react";
-import { Activity, ArrowRight, Building, Calendar, CheckCircle2, Filter, LayoutDashboard, Mail, Maximize2, MessageSquare, MousePointerClick, Network, Paintbrush, Rocket, ShoppingBag, Store, Target, TrendingUp, Users, Workflow, Wrench, Zap, Bot, Code, Palette, FileText, PenTool, Video, MessageCircle, Cloud } from "lucide-react";
+import { useState, useEffect, type MouseEvent, type ReactNode } from "react";
+import { Activity, ArrowRight, Building, Calendar, CheckCircle2, ChevronDown, ClipboardList, Filter, LayoutDashboard, Mail, Maximize2, MessageSquare, MousePointerClick, Network, Paintbrush, Rocket, ShoppingBag, Store, Target, TrendingUp, Users, Workflow, Wrench, Zap, Bot, Code, Palette, FileText, PenTool, Video, MessageCircle, Cloud } from "lucide-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -49,6 +49,31 @@ const MediaCard = ({ src, alt, caption }: { src: string; alt: string; caption?: 
     </figure>
   );
 };
+
+const InfoHeading = ({ icon: Icon, children }: { icon: typeof Target; children: ReactNode }) => (
+  <h5 className="flex items-center gap-3 text-lg font-bold">
+    <Icon className="h-5 w-5 text-primary" />
+    {children}
+  </h5>
+);
+
+const InfoCard = ({ icon, title, children, highlighted = false }: { icon: typeof Target; title: string; children: ReactNode; highlighted?: boolean }) => (
+  <div className={`ghl-info-card p-6 md:p-8 rounded-3xl border ${highlighted ? "bg-primary/[0.02] border-primary/20" : "bg-card border-white/5"}`}>
+    <InfoHeading icon={icon}>{title}</InfoHeading>
+    <div className="mt-4">{children}</div>
+  </div>
+);
+
+const BulletList = ({ items }: { items: string[] }) => (
+  <ul className="space-y-3 text-muted-foreground">
+    {items.map((item) => (
+      <li key={item} className="flex items-start gap-3 leading-relaxed">
+        <CheckCircle2 className="h-5 w-5 shrink-0 mt-0.5 text-primary" />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
 
 const Index = () => {
   const [text, setText] = useState("");
@@ -150,7 +175,7 @@ const Index = () => {
               <p className="text-xl md:text-2xl text-muted-foreground font-medium">Hi there. I'm</p>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">DONABEL TOLOMIA</h1>
               <div className="h-8 md:h-10 flex items-center justify-center lg:justify-start">
-                <h2 className={`text-2xl md:text-3xl font-semibold transition-colors duration-300 ${["text-[#81a1c1]", "text-primary", "text-[#95bf47]", "text-[#1E3A5F]"][loopNum % PHRASES.length]}`}>{text || "\u00A0"}<span className={`animate-[pulse_1s_ease-in-out_infinite] border-r-2 ml-1 h-6 md:h-8 inline-block align-middle transition-colors duration-300 ${["border-[#81a1c1]", "border-primary", "border-[#95bf47]", "border-[#1E3A5F]"][loopNum % PHRASES.length]}`}></span></h2>
+                <h2 className={`text-2xl md:text-3xl font-semibold transition-colors duration-300 ${["text-[#81a1c1]", "text-primary", "text-[#95bf47]", "text-[#c45cff]"][loopNum % PHRASES.length]}`}>{text || "\u00A0"}<span className={`animate-[pulse_1s_ease-in-out_infinite] border-r-2 ml-1 h-6 md:h-8 inline-block align-middle transition-colors duration-300 ${["border-[#81a1c1]", "border-primary", "border-[#95bf47]", "border-[#c45cff]"][loopNum % PHRASES.length]}`}></span></h2>
               </div>
               <div className="pt-4 max-w-2xl mx-auto lg:mx-0">
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
@@ -398,8 +423,8 @@ const Index = () => {
           {/* Administrative & Executive Services */}
           <div className="mt-16">
             <div className="mb-8 flex items-center gap-6">
-              <h3 className="text-2xl font-bold tracking-tight text-[#1E3A5F]">Administrative/Executive Support</h3>
-              <div className="h-[1px] flex-grow bg-gradient-to-r from-[#1E3A5F]/50 to-transparent"></div>
+              <h3 className="text-2xl font-bold tracking-tight text-[#c45cff]">Administrative/Executive Support</h3>
+              <div className="h-[1px] flex-grow bg-gradient-to-r from-[#c45cff]/50 to-transparent"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {[
@@ -408,11 +433,11 @@ const Index = () => {
                 { icon: ClipboardList, title: "Task, Deadline & Action-Item Tracking", service: "Organize requests, assign ownership, monitor deadlines and dependencies, and proactively follow up on outstanding work.", result: "Teams have accountability and visibility, enabling faster execution and fewer missed commitments." },
                 { icon: FileText, title: "Digital File & Document Management", service: "Create organized folder structures, standardize file naming, maintain document indexes, and support version control.", result: "Information is easy to find, documentation stays current, and the business runs with greater clarity and confidence." }
               ].map((item, i) => (
-                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#1E3A5F]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(30,58,95,0.1)] group flex flex-col">
-                  <div className="h-14 w-14 rounded-2xl bg-[#1E3A5F]/10 flex items-center justify-center text-[#1E3A5F] mb-6 group-hover:scale-110 transition-transform"><item.icon className="h-7 w-7" /></div>
+                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#c45cff]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(196,92,255,0.18)] group flex flex-col">
+                  <div className="h-14 w-14 rounded-2xl bg-[#c45cff]/10 flex items-center justify-center text-[#c45cff] mb-6 group-hover:scale-110 transition-transform"><item.icon className="h-7 w-7" /></div>
                   <h3 className="text-xl font-bold mb-6">{item.title}</h3>
                   <div className="space-y-4 flex-grow">
-                    <div><span className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider block mb-2">The Service</span><p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p></div>
+                    <div><span className="text-xs font-bold text-[#c45cff] uppercase tracking-wider block mb-2">The Service</span><p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p></div>
                     <div><span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span><p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p></div>
                   </div>
                 </div>
@@ -439,9 +464,9 @@ const Index = () => {
               { icon: Mail, text: "Implement follow-ups (email/SMS)" },
               { icon: TrendingUp, text: "Continuously improve performance" },
               { icon: Activity, text: "Streamline healthcare admin and patient coordination" },
-              { icon: Calendar, text: "Keep executive calendars, meetings, and priorities on track", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" },
-              { icon: ClipboardList, text: "Turn tasks and action items into clear ownership and follow-through", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" },
-              { icon: FileText, text: "Build organized inbox and document systems that save time and reduce risk", color: "text-[#1E3A5F]", bg: "bg-[#1E3A5F]/10 border border-[#1E3A5F]/10", hover: "hover:border-[#1E3A5F]/30" }
+              { icon: Calendar, text: "Keep executive calendars, meetings, and priorities on track", color: "text-[#c45cff]", bg: "bg-[#c45cff]/10 border border-[#c45cff]/10", hover: "hover:border-[#c45cff]/30" },
+              { icon: ClipboardList, text: "Turn tasks and action items into clear ownership and follow-through", color: "text-[#c45cff]", bg: "bg-[#c45cff]/10 border border-[#c45cff]/10", hover: "hover:border-[#c45cff]/30" },
+              { icon: FileText, text: "Build organized inbox and document systems that save time and reduce risk", color: "text-[#c45cff]", bg: "bg-[#c45cff]/10 border border-[#c45cff]/10", hover: "hover:border-[#c45cff]/30" }
             ].map((item, i) => (
               <div key={i} className={`flex items-center gap-5 p-6 rounded-3xl border border-white/5 bg-[#0a0a0a] ${item.hover ?? "hover:border-primary/30"} transition-all group shadow-sm`}>
                 <div className={`h-14 w-14 shrink-0 rounded-2xl ${item.bg ?? "bg-primary/10 border border-primary/10"} flex items-center justify-center ${item.color ?? "text-primary"} group-hover:scale-110 transition-transform`}>
@@ -545,20 +570,20 @@ const Index = () => {
         {/* Administrative & Executive Workflow */}
         <div>
           <div className="mb-10 flex items-center gap-6">
-            <h3 className="text-2xl font-bold tracking-tight text-[#1E3A5F]">Administrative/Executive Workflow</h3>
-            <div className="h-[1px] flex-grow bg-gradient-to-r from-[#1E3A5F]/50 to-transparent"></div>
+            <h3 className="text-2xl font-bold tracking-tight text-[#c45cff]">Administrative/Executive Workflow</h3>
+            <div className="h-[1px] flex-grow bg-gradient-to-r from-[#c45cff]/50 to-transparent"></div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-            <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#1E3A5F]/20 to-transparent -z-10"></div>
+            <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#c45cff]/20 to-transparent -z-10"></div>
             {[
               { num: "01", icon: Target, title: "Align on Priorities", desc: "Learn your goals, preferred communication style, and the work that needs attention first" },
               { num: "02", icon: ClipboardList, title: "Create Structure", desc: "Set up clear systems for calendars, inboxes, tasks, documents, and recurring workflows" },
               { num: "03", icon: CheckCircle2, title: "Coordinate & Follow Through", desc: "Track details, manage deadlines, and keep stakeholders informed with timely follow-ups" },
               { num: "04", icon: TrendingUp, title: "Refine for Growth", desc: "Improve routines and reporting so your business gains back time and operates more smoothly" },
             ].map((step, i) => (
-              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-[#1E3A5F]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
-                <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-[#1E3A5F]/[0.05] transition-colors pointer-events-none">{step.num}</div>
-                <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#1E3A5F] mb-6 group-hover:scale-110 transition-transform z-10"><step.icon className="h-7 w-7" /></div>
+              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-[#c45cff]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+                <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-[#c45cff]/[0.05] transition-colors pointer-events-none">{step.num}</div>
+                <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#c45cff] mb-6 group-hover:scale-110 transition-transform z-10"><step.icon className="h-7 w-7" /></div>
                 <h3 className="text-xl font-bold mb-3 z-10">{step.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed z-10">{step.desc}</p>
               </div>
@@ -591,16 +616,16 @@ const Index = () => {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="admin" 
-                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white transition-all"
+                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#c45cff] data-[state=active]:text-[#160d1f] transition-all"
                 >
                   Administrative/Executive Support
                 </TabsTrigger>
               </TabsList>
             </div>
 
-            <TabsContent value="ghl" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-              <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div>
+            <TabsContent value="ghl" className="ghl-portfolio mt-0 focus-visible:outline-none focus-visible:ring-0">
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 01</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL CRM & Contact Management</h4>
                   <div className="grid md:grid-cols-2 gap-6">
@@ -678,18 +703,14 @@ const Index = () => {
                     ))}
                   </div>
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 02</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Pipelines & Opportunity Management</h4>
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-6">
-                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Build and manage sales pipelines that visually represent different customer journeys, track opportunities through each stage, and monitor potential revenue.</p></div>
-                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Tools</h5><p className="text-muted-foreground">GoHighLevel</p></div>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Pipeline creation and customization • Opportunity management • Sales stage configuration • Deal value and close date tracking • Lost opportunity management • Multiple pipeline design • Pipeline segmentation • Pipeline aging preparation</p></div>
-                      <div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and managed two sales pipelines: a high-ticket Website Design process and a recurring Home Cleaning service process. Demonstrated opportunity movement, deal values, close dates, and structures matched to different sales cycles.</p></div>
-                    </div>
+                    <InfoCard icon={Target} title="Objective"><p className="text-muted-foreground leading-relaxed">Build and manage sales pipelines that visually represent different customer journeys, track opportunities through each stage, and monitor potential revenue.</p></InfoCard>
+                    <InfoCard icon={Wrench} title="Tools"><BulletList items={["GoHighLevel"]} /></InfoCard>
+                    <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Pipeline creation and customization", "Opportunity management", "Sales stage configuration", "Deal value and close date tracking", "Lost opportunity management", "Multiple pipeline design", "Pipeline segmentation", "Pipeline aging preparation"]} /></InfoCard>
+                    <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created and managed two sales pipelines: a high-ticket Website Design process and a recurring Home Cleaning service process. Demonstrated opportunity movement, deal values, close dates, and structures matched to different sales cycles.</p></InfoCard>
                   </div>
                   <h5 className="text-2xl font-bold mt-10 mb-4">Website Design Sales</h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -701,41 +722,60 @@ const Index = () => {
                   <MediaCard src="/pipelines/home-cleaning-pipeline.png" alt="Screenshot 3 - Home Cleaning Pipeline" caption="Different Businesses Require Different Pipeline Logic. Website Design is high-ticket, has a longer sales cycle, proposal and negotiation, and is a one-time project. Home Cleaning is lower-cost, faster-moving, quote and scheduling based, and recurring. These structures match each business model's sales and service-delivery needs." />
                   <MediaCard src="/pipelines/pipeline-aging.png" alt="Screenshot 4 - Pipeline Aging" caption="Pipeline Aging Preparation - Created an intentionally aging opportunity to simulate a stalled lead and provide a test case for future automated follow-up workflows." />
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 03</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Calendars & Appointment Booking</h4>
-                  <div className="grid md:grid-cols-2 gap-6"><div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Build and manage appointment calendars that provide a professional booking experience, automate confirmations and reminders, support multiple appointment types, and prevent scheduling conflicts.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground">GoHighLevel • Google Calendar</p></div><div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Calendar creation • Availability and working hours • Duration and buffer settings • Public booking pages • Confirmations and reminders • Multiple appointment types • Google Calendar synchronization • Double-booking prevention • Testing and validation</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and tested 30-minute Discovery Call, 60-minute Consultation, and 15-minute Follow-Up Call calendars with different availability windows, automated reminders, Google Calendar synchronization, and conflict prevention.</p></div></div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <InfoCard icon={Target} title="Objective"><p className="text-muted-foreground leading-relaxed">Build and manage appointment calendars that provide a professional booking experience, automate confirmations and reminders, support multiple appointment types, and prevent scheduling conflicts.</p></InfoCard>
+                    <InfoCard icon={Wrench} title="Tools"><BulletList items={["GoHighLevel", "Google Calendar"]} /></InfoCard>
+                    <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Calendar creation and customization", "Availability and working hours configuration", "Appointment duration and buffer settings", "Public booking page setup", "Booking confirmation and reminder automation", "Multiple calendar management", "Google Calendar synchronization", "Double-booking prevention", "Appointment testing and validation"]} /></InfoCard>
+                    <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created and tested 30-minute Discovery Call, 60-minute Consultation, and 15-minute Follow-Up Call calendars with different availability windows, automated reminders, Google Calendar synchronization, and conflict prevention.</p></InfoCard>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8"><MediaCard src="/calendar/discovery-call.png" alt="Screenshot 1 - Discovery Call" /><MediaCard src="/calendar/follow-up-call.png" alt="Screenshot 2 - Follow-up Call" /><MediaCard src="/calendar/consultation.png" alt="Screenshot 3 - Consultation" /></div>
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 04</div><h4 className="text-3xl md:text-4xl font-bold mb-8">GHL Forms & Surveys</h4>
-                  <div className="grid md:grid-cols-2 gap-6"><div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Create customer-facing forms and surveys that collect structured lead information and send submitted data into GHL CRM for segmentation, qualification, and automation.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground leading-relaxed">GoHighLevel • GHL Forms & Surveys • GHL CRM • Custom Fields</p></div><div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Form and survey creation • Custom field mapping • Dropdown configuration • CRM data capture • Form branding • Publishing and testing • Lead segmentation • Multi-step survey setup</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created and tested a Website Design Intake Form capturing contact information, service interest, and budget range, mapped to CRM fields for segmentation, qualification, and workflows.</p></div></div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <InfoCard icon={Target} title="Objective"><p className="text-muted-foreground leading-relaxed">Create customer-facing forms and surveys that collect structured lead information and send submitted data into GHL CRM for segmentation, qualification, and automation.</p></InfoCard>
+                    <InfoCard icon={Wrench} title="Tools"><BulletList items={["GoHighLevel", "GHL Forms & Surveys", "GHL CRM", "Custom Fields"]} /></InfoCard>
+                    <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Form and survey creation", "Custom field mapping", "Dropdown field configuration", "CRM data capture", "Lead information collection", "Form customization and branding", "Form publishing and testing", "Lead segmentation preparation", "Multi-step survey setup"]} /></InfoCard>
+                    <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created and tested a Website Design Intake Form capturing contact information, service interest, and budget range, mapped to CRM fields for segmentation, qualification, and workflows.</p></InfoCard>
+                  </div>
                   <div className="mt-8 p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">How It Works: Form → CRM → Automation</h5><p className="text-muted-foreground leading-relaxed">1. Lead completes the form and provides contact details, service interest, and budget. 2. Data enters the CRM through mapped Service Interest and Budget fields. 3. Data becomes actionable for segmentation, qualification, and workflow triggers. Multiple test entries were submitted and verified on the corresponding CRM contact records.</p></div>
                   <div className="mt-8 max-w-3xl"><MediaCard src="/form/website-design-intake.png" alt="Screenshot 1 - Website Design Intake Form" /></div>
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 05</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">Workflows & Automation</h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     {[
-                      ["1. New Lead Instant Response", "Create an automated first response whenever a new lead submits a form or enters the CRM, acknowledging the lead immediately while notifying the team.", "GoHighLevel CRM • Workflows • Forms • Email • SMS • Tags • Custom Fields", "Workflow automation • Form-to-CRM automation • Lead capture • SMS/email automation • Internal notifications • Contact tagging", "When a new lead submits the intake form, GHL creates or updates the contact, applies a lead tag, sends an SMS or email confirmation, and notifies the assigned team member. Reduces response time and prevents overlooked leads."],
-                      ["2. Lead Qualification", "Automatically evaluate incoming leads based on their information and route them according to qualification status.", "GoHighLevel CRM • Workflows • Forms/Surveys • If/Else Conditions • Custom Fields • Tags • Pipelines", "Conditional logic • Lead qualification • CRM segmentation • Pipeline management • Automated lead routing", "The workflow checks service interest, budget, or business needs, then routes qualified leads to the appropriate pipeline stage and others to nurture. Helps teams prioritize high-potential leads."],
-                      ["3. Unresponsive Lead Nurture", "Automatically follow up with leads who have not responded, maintaining engagement without manual follow-ups.", "GoHighLevel CRM • Workflows • SMS • Email • Wait Steps • If/Else Conditions • Tags", "Multi-step automation • Lead nurturing • Conditional logic • Follow-up sequencing", "After an initial contact, the workflow waits, checks for a reply or booking, and sends additional follow-ups only when needed. Creates consistent follow-up while reducing manual chasing."],
-                      ["5. Lost Opportunity Re-Engagement", "Reconnect with leads whose opportunities were marked as lost and give them another opportunity to engage.", "GoHighLevel CRM • Opportunities • Workflows • Tags • SMS • Email • Wait Steps • Pipeline", "Re-engagement automation • Opportunity management • Segmentation • Multi-step campaigns", "When an opportunity is marked lost, the workflow waits before sending a re-engagement message, then stops, notifies the team, or continues based on the lead response."],
-                      ["6. Appointment Booking Confirmation", "Automatically confirm newly booked appointments and provide important appointment details.", "GoHighLevel Calendars • Workflows • SMS • Email • CRM • Custom Values", "Calendar automation • Appointment workflows • Automated confirmations • Custom values", "When a contact books, GHL sends a confirmation with the appointment date, time, and meeting details, reducing uncertainty and saving staff time."],
-                      ["7. Appointment Reminder", "Reduce missed appointments by automatically reminding contacts before their scheduled appointment.", "GoHighLevel Calendars • Workflows • SMS • Email • Wait Steps • Custom Values", "Appointment automation • Time-based workflows • SMS/email reminders • Calendar integration", "The workflow waits until the appropriate time and sends reminders, such as one day before and a few hours before the appointment, supporting attendance."],
-                      ["8. No-Show Recovery", "Follow up with contacts who miss their appointment and encourage them to reschedule.", "GoHighLevel Calendars • Workflows • Appointment Status • If/Else Conditions • SMS • Email • Calendar • Pipeline", "Appointment-status automation • Conditional workflows • No-show recovery • Rescheduling automation • Lead nurturing", "When an appointment is marked No-Show, the workflow asks whether the contact would like to reschedule and can stop or move them back into the pipeline when they respond or book again."]
-                    ].map(([title, objective, tools, skills, howItWorks]) => (
-                      <article key={title} className="p-6 md:p-8 rounded-3xl bg-card border border-white/5">
-                        <h5 className="text-xl font-bold mb-4">{title}</h5><p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Objective:</strong> {objective}</p><p className="text-muted-foreground leading-relaxed mb-4"><strong className="text-foreground">Tools:</strong> {tools}</p><p className="text-muted-foreground leading-relaxed"><strong className="text-foreground">Skills:</strong> {skills}</p><p className="text-muted-foreground leading-relaxed mt-4"><strong className="text-foreground">How It Works / Result:</strong> {howItWorks}</p>
-                      </article>
+                      ["1. New Lead Instant Response", "Create an automated first response whenever a new lead submits a form or enters the CRM, acknowledging the lead immediately while notifying the team.", "GoHighLevel CRM • Workflows • Forms • Email • SMS • Tags • Custom Fields", "Workflow automation • Form-to-CRM automation • Lead capture • SMS/email automation • Internal notifications • Contact tagging", "When a new lead submits the intake form, GHL creates or updates the contact, applies a lead tag, sends an SMS or email confirmation, and notifies the assigned team member. Reduces response time and prevents overlooked leads.", "/workflow/new-lead-instant-response.png"],
+                      ["2. Lead Qualification", "Automatically evaluate incoming leads based on their information and route them according to qualification status.", "GoHighLevel CRM • Workflows • Forms/Surveys • If/Else Conditions • Custom Fields • Tags • Pipelines", "Conditional logic • Lead qualification • CRM segmentation • Pipeline management • Automated lead routing", "The workflow checks service interest, budget, or business needs, then routes qualified leads to the appropriate pipeline stage and others to nurture. Helps teams prioritize high-potential leads.", "/workflow/lead-qualification.png"],
+                      ["3. Unresponsive Lead Nurture", "Automatically follow up with leads who have not responded, maintaining engagement without manual follow-ups.", "GoHighLevel CRM • Workflows • SMS • Email • Wait Steps • If/Else Conditions • Tags", "Multi-step automation • Lead nurturing • Conditional logic • Follow-up sequencing", "After an initial contact, the workflow waits, checks for a reply or booking, and sends additional follow-ups only when needed. Creates consistent follow-up while reducing manual chasing.", "/workflow/unresponsive-lead-nurture.png"],
+                      ["5. Lost Opportunity Re-Engagement", "Reconnect with leads whose opportunities were marked as lost and give them another opportunity to engage.", "GoHighLevel CRM • Opportunities • Workflows • Tags • SMS • Email • Wait Steps • Pipeline", "Re-engagement automation • Opportunity management • Segmentation • Multi-step campaigns", "When an opportunity is marked lost, the workflow waits before sending a re-engagement message, then stops, notifies the team, or continues based on the lead response.", "/workflow/lost-opportunity-reengagement.png"],
+                      ["6. Appointment Booking Confirmation", "Automatically confirm newly booked appointments and provide important appointment details.", "GoHighLevel Calendars • Workflows • SMS • Email • CRM • Custom Values", "Calendar automation • Appointment workflows • Automated confirmations • Custom values", "When a contact books, GHL sends a confirmation with the appointment date, time, and meeting details, reducing uncertainty and saving staff time.", "/workflow/appointment-confirmation.png"],
+                      ["7. Appointment Reminder", "Reduce missed appointments by automatically reminding contacts before their scheduled appointment.", "GoHighLevel Calendars • Workflows • SMS • Email • Wait Steps • Custom Values", "Appointment automation • Time-based workflows • SMS/email reminders • Calendar integration", "The workflow waits until the appropriate time and sends reminders, such as one day before and a few hours before the appointment, supporting attendance.", "/workflow/appointment-reminder.png"],
+                      ["8. No-Show Recovery", "Follow up with contacts who miss their appointment and encourage them to reschedule.", "GoHighLevel Calendars • Workflows • Appointment Status • If/Else Conditions • SMS • Email • Calendar • Pipeline", "Appointment-status automation • Conditional workflows • No-show recovery • Rescheduling automation • Lead nurturing", "When an appointment is marked No-Show, the workflow asks whether the contact would like to reschedule and can stop or move them back into the pipeline when they respond or book again.", "/workflow/no-show.png"]
+                    ].map(([title, objective, tools, skills, howItWorks, image]) => (
+                      <details key={title} className="ghl-workflow group rounded-3xl border border-white/5 bg-card">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-6 md:p-8">
+                          <div className="flex min-w-0 items-center gap-3"><Workflow className="h-5 w-5 shrink-0 text-primary" /><span className="text-xl font-bold">{title}</span></div>
+                          <ChevronDown className="ghl-workflow-chevron h-5 w-5 shrink-0 text-primary" />
+                        </summary>
+                        <div className="ghl-workflow-panel border-t border-white/5 px-6 pb-6 md:px-8 md:pb-8">
+                          <div className="ghl-workflow-details mt-6">
+                            <section className="ghl-workflow-detail"><InfoHeading icon={Target}>Objective</InfoHeading><p className="mt-3 text-muted-foreground leading-relaxed">{objective}</p></section>
+                            <section className="ghl-workflow-detail"><InfoHeading icon={Wrench}>Tools</InfoHeading><div className="mt-3"><BulletList items={tools.split(" • ")} /></div></section>
+                            <section className="ghl-workflow-detail"><InfoHeading icon={LayoutDashboard}>Skills Demonstrated</InfoHeading><div className="mt-3"><BulletList items={skills.split(" • ")} /></div></section>
+                            <section className="ghl-workflow-detail"><InfoHeading icon={Zap}>Result</InfoHeading><p className="mt-3 text-foreground leading-relaxed">{howItWorks}</p></section>
+                          </div>
+                          <div className="mt-6"><MediaCard src={image} alt={`${title} workflow screenshot`} /></div>
+                        </div>
+                      </details>
                     ))}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    <MediaCard src="/workflow/appointment-confirmation.png" alt="Appointment Confirmation workflow" /><MediaCard src="/workflow/appointment-reminder.png" alt="Appointment Reminder workflow" /><MediaCard src="/workflow/lead-qualification.png" alt="Lead Qualification workflow" /><MediaCard src="/workflow/lost-opportunity-reengagement.png" alt="Lost Opportunity Re-engagement workflow" /><MediaCard src="/workflow/new-lead-instant-response.png" alt="New Lead Instant Response workflow" /><MediaCard src="/workflow/no-show.png" alt="No-Show Recovery workflow" /><MediaCard src="/workflow/unresponsive-lead-nurture.png" alt="Unresponsive Lead Nurture workflow" />
-                  </div>
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 06</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">Funnels & Websites</h4>
                   <div className="grid md:grid-cols-2 gap-6">
@@ -802,12 +842,14 @@ const Index = () => {
                     ))}
                   </div>
                 </div>
-                <div className="pt-12 border-t border-white/5">
+                <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 07</div>
                   <h4 className="text-3xl md:text-4xl font-bold mb-8">Social Media Content Calendar</h4>
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">Objective</h5><p className="text-muted-foreground leading-relaxed">Create a structured two-week social media content calendar for a fictional consulting business, organizing posts by date, platform, caption direction, and visual concept while balancing promotional, educational, and engagement content.</p><h5 className="text-lg font-bold mt-6 mb-4">Tools</h5><p className="text-muted-foreground">Google Sheets • Microsoft Excel • Canva</p></div>
-                    <div className="p-6 md:p-8 rounded-3xl bg-primary/[0.02] border border-primary/20"><h5 className="text-lg font-bold mb-4">Skills Demonstrated</h5><p className="text-muted-foreground leading-relaxed">Social media content planning • Content calendar creation • Content organization • Promotional, educational, and engagement planning • Caption and visual idea development • Platform-based spreadsheet management</p><h5 className="text-lg font-bold mt-6 mb-4">Result</h5><p className="text-foreground leading-relaxed">Created a 2-week calendar containing 10 planned posts for Bright Path Consulting, organized by date, platform, caption idea, and visual concept so another person could understand what to post and when.</p></div>
+                    <InfoCard icon={Target} title="Objective"><p className="text-muted-foreground leading-relaxed">Create a structured two-week social media content calendar for a fictional consulting business, organizing posts by date, platform, caption direction, and visual concept while balancing promotional, educational, and engagement content.</p></InfoCard>
+                    <InfoCard icon={Wrench} title="Tools"><BulletList items={["Google Sheets", "Microsoft Excel", "Canva"]} /></InfoCard>
+                    <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Social media content planning", "Content calendar creation", "Content organization", "Promotional content planning", "Educational content planning", "Engagement content planning", "Caption idea development", "Visual content planning", "Platform-based content organization", "Spreadsheet management"]} /></InfoCard>
+                    <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created a 2-week calendar containing 10 planned posts for Bright Path Consulting, organized by date, platform, caption idea, and visual concept so another person could understand what to post and when.</p></InfoCard>
                   </div>
                   <div className="mt-8 max-w-4xl"><MediaCard src="/social-media/content-calendar.png" alt="Social Media Planner" caption="Social Media Content Planning - 2-Week Content Calendar. A sample content calendar created for a fictional consulting business before scheduling and publishing, with 10 posts across different purposes, platforms, caption directions, and visual ideas." /></div>
                 </div>
@@ -1019,12 +1061,7 @@ const Index = () => {
                           className="rounded-xl border border-white/10 w-full aspect-video object-contain bg-black/20" 
                         />
                       ) : (
-                        <img 
-                          key={i} 
-                          src={media.src} 
-                          alt={`Shopify Case Study 1 Preview ${i + 1}`}
-                          className="rounded-xl border border-white/10 w-full h-full object-cover aspect-video bg-black/20" 
-                        />
+                        <MediaCard key={i} src={media.src} alt={`Shopify Case Study 1 Preview ${i + 1}`} />
                       )
                     ))}
                   </div>
@@ -1099,12 +1136,7 @@ const Index = () => {
                           className="rounded-xl border border-white/10 w-full aspect-video object-contain bg-black/20" 
                         />
                       ) : (
-                        <img 
-                          key={i} 
-                          src={media.src} 
-                          alt={`Shopify Case Study 2 Preview ${i + 1}`}
-                          className="rounded-xl border border-white/10 w-full h-full object-cover aspect-video bg-black/20" 
-                        />
+                        <MediaCard key={i} src={media.src} alt={`Shopify Case Study 2 Preview ${i + 1}`} />
                       )
                     ))}
                   </div>
@@ -1113,7 +1145,7 @@ const Index = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="admin" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+            <TabsContent value="admin" className="admin-portfolio mt-0 focus-visible:outline-none focus-visible:ring-0">
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="text-xs font-bold text-[#1E3A5F] uppercase tracking-wider mb-4">Project 01</div>
                 <h4 className="text-3xl md:text-4xl font-bold mb-8">Executive Calendar Management</h4>
@@ -1151,12 +1183,7 @@ const Index = () => {
                     { src: executiveCalendarOverview, alt: "Executive Calendar Overview" },
                     { src: executiveCalendarTracker, alt: "Executive Scheduling Tracker" },
                     { src: meetingPreparationTracker, alt: "Meeting Preparation Tracker" },
-                  ].map((image) => (
-                    <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                      <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                      <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                    </figure>
-                  ))}
+                  ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                 </div>
 
                 <div className="pt-12 mt-12 border-t border-white/5">
@@ -1195,12 +1222,7 @@ const Index = () => {
                     {[
                       { src: taskDeadlineTracker, alt: "Task and Deadline Tracker" },
                       { src: taskDeadlineFollowUp, alt: "Summary" },
-                    ].map((image) => (
-                      <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                        <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                        <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                      </figure>
-                    ))}
+                    ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                   </div>
                 </div>
 
@@ -1245,12 +1267,7 @@ const Index = () => {
                           { src: meetingAgenda1, alt: "Meeting agenda overview" },
                           { src: meetingAgenda2, alt: "Meeting agenda details" },
                           { src: meetingMinutes1, alt: "Meeting agenda document" },
-                        ].map((image) => (
-                          <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                            <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                            <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                          </figure>
-                        ))}
+                        ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                       </div>
                     </div>
                     <div>
@@ -1259,12 +1276,7 @@ const Index = () => {
                         {[
                           { src: meetingMinutes2, alt: "Meeting minutes" },
                           { src: meetingMinutes3, alt: "Meeting minutes action items" },
-                        ].map((image) => (
-                          <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                            <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                            <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                          </figure>
-                        ))}
+                        ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                       </div>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1272,12 +1284,7 @@ const Index = () => {
                         { src: meetingPreparations, alt: "Meeting Preparation Tracker" },
                         { src: weeklyOperations, alt: "Weekly Operations Action Item Tracker" },
                         { src: followUpSummary, alt: "Follow-Up Summary" },
-                      ].map((image) => (
-                        <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                          <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                          <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                        </figure>
-                      ))}
+                      ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                     </div>
                   </div>
                 </div>
@@ -1312,10 +1319,7 @@ const Index = () => {
                       </div>
                     </div>
                   </div>
-                  <figure className="mt-8 overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                    <img src={fileOrganizationDocumentManagement} alt="File organization and document management demonstration" className="w-full object-contain" />
-                    <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">File Organization &amp; Document Management</figcaption>
-                  </figure>
+                  <div className="mt-8"><MediaCard src={fileOrganizationDocumentManagement} alt="File organization and document management demonstration" caption="File Organization & Document Management" /></div>
                 </div>
 
                 <div className="pt-12 mt-12 border-t border-white/5">
@@ -1356,12 +1360,7 @@ const Index = () => {
                       { src: inboxManagement4, alt: "Inbox follow-up queue" },
                       { src: inboxManagement5, alt: "Inbox management SOP" },
                       { src: inboxManagementGmail, alt: "Gmail Labeling System" },
-                    ].map((image) => (
-                      <figure key={image.alt} className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
-                        <img src={image.src} alt={image.alt} className="w-full aspect-video object-contain" />
-                        <figcaption className="px-4 py-3 text-sm font-medium text-muted-foreground">{image.alt}</figcaption>
-                      </figure>
-                    ))}
+                    ].map((image) => <MediaCard key={image.alt} src={image.src} alt={image.alt} caption={image.alt} />)}
                   </div>
                 </div>
               </div>
@@ -1484,6 +1483,8 @@ const Index = () => {
               <CarouselContent className="-ml-4">
                 {[
                   { name: "ChatGPT", icon: Bot },
+                  { name: "Claude", icon: Bot },
+                  { name: "Gemini", icon: Bot },
                   { name: "GoHighLevel", icon: Rocket },
                   { name: "HTML", icon: Code },
                   { name: "CSS", icon: Palette },
