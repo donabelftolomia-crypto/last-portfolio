@@ -38,9 +38,9 @@ const MediaCard = ({ src, alt, caption }: { src: string; alt: string; caption?: 
   };
 
   return (
-    <figure className="overflow-hidden rounded-3xl bg-card border border-white/5">
+    <figure className="group overflow-hidden rounded-3xl bg-card border border-white/5">
       <div className="relative bg-black/20 p-2">
-        <img src={src} alt={alt} className="w-full h-auto max-h-[75vh] object-contain" />
+        <img src={src} alt={alt} className="media-zoom w-full h-auto max-h-[75vh] object-contain" />
         <button type="button" onClick={openFullscreen} aria-label={`View ${alt} fullscreen`} title="View fullscreen" className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg hover:bg-primary hover:text-primary-foreground transition-colors">
           <Maximize2 className="h-4 w-4" />
         </button>
@@ -75,11 +75,46 @@ const BulletList = ({ items }: { items: string[] }) => (
   </ul>
 );
 
+type ServiceItem = {
+  icon: typeof Target;
+  title: string;
+  service: string;
+  result: string;
+};
+
+const ServiceAccordion = ({ item, color, iconBackground }: { item: ServiceItem; color: string; iconBackground: string }) => (
+  <details className="group rounded-2xl border border-white/10 bg-card transition-colors hover:border-white/20 open:border-white/20">
+    <summary className="flex cursor-pointer list-none items-center gap-4 p-4 md:p-5">
+      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${iconBackground} ${color}`}>
+        <item.icon className="h-5 w-5" />
+      </div>
+      <h3 className="min-w-0 flex-1 text-base font-semibold leading-snug text-foreground">{item.title}</h3>
+      <div className="flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <span className="hidden sm:inline">View details</span>
+        <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+      </div>
+    </summary>
+    <div className="border-t border-white/10 px-4 pb-5 pt-4 md:px-5">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <span className={`mb-1 block text-xs font-bold uppercase tracking-wider ${color}`}>The Service</span>
+          <p className="text-sm leading-relaxed text-muted-foreground">{item.service}</p>
+        </div>
+        <div>
+          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-foreground">The Result</span>
+          <p className="text-sm leading-relaxed text-muted-foreground">{item.result}</p>
+        </div>
+      </div>
+    </div>
+  </details>
+);
+
 const Index = () => {
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(80);
+  const [activeSection, setActiveSection] = useState("services");
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -110,6 +145,41 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, typingSpeed]);
 
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(".section-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      }),
+      { threshold: 0, rootMargin: "0px" }
+    );
+
+    sections.forEach((section) => {
+      observer.observe(section);
+      const bounds = section.getBoundingClientRect();
+      if (bounds.top < window.innerHeight && bounds.bottom > 0) {
+        section.classList.add("is-visible");
+      }
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = ["services", "process", "work"]
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveSection(entry.target.id);
+      }),
+      { rootMargin: "-20% 0px -65% 0px", threshold: 0 }
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 selection:text-primary relative overflow-hidden">
       {/* Background patterns */}
@@ -125,9 +195,17 @@ const Index = () => {
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/50 backdrop-blur-md">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="container mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
           <div className="text-xl font-bold tracking-tight">
             Donabel<span className="text-primary">.</span>
+          </div>
+          <div className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
+            {[["services", "Services"], ["process", "Process"], ["work", "Selected work"]].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className={`relative py-2 transition-colors ${activeSection === id ? "text-foreground" : "hover:text-foreground"}`}>
+                {label}
+                <span className={`absolute inset-x-0 bottom-0 h-px origin-left bg-primary transition-transform ${activeSection === id ? "scale-x-100" : "scale-x-0"}`} />
+              </a>
+            ))}
           </div>
           <a
             href="https://wa.me/639368326488"
@@ -141,10 +219,10 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 container mx-auto">
+      <section className="section-reveal pt-32 pb-20 px-6 container mx-auto">
 <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 max-w-6xl mx-auto">
           <div className="relative z-10 shrink-0 -mt-8 lg:-mt-40 flex flex-col items-center">
-            <div className="relative w-80 h-80 md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] group flex items-end justify-center">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] group flex items-end justify-center">
               {/* Enhanced Animated Glows */}
               <div className="absolute inset-0 bg-primary/40 rounded-full blur-[80px] -z-10 animate-glow"></div>
               <div className="absolute inset-[-10%] bg-[#81a1c1]/30 rounded-full blur-[100px] -z-10 translate-x-8 translate-y-8 animate-glow" style={{ animationDelay: '1.5s', animationDuration: '5s' }}></div>
@@ -173,13 +251,13 @@ const Index = () => {
           <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
             <div className="space-y-4">
               <p className="text-xl md:text-2xl text-muted-foreground font-medium">Hi there. I'm</p>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">DONABEL TOLOMIA</h1>
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight text-foreground">DONABEL TOLOMIA</h1>
               <div className="h-8 md:h-10 flex items-center justify-center lg:justify-start">
                 <h2 className={`text-2xl md:text-3xl font-semibold transition-colors duration-300 ${["text-[#81a1c1]", "text-primary", "text-[#95bf47]", "text-[#c45cff]"][loopNum % PHRASES.length]}`}>{text || "\u00A0"}<span className={`animate-[pulse_1s_ease-in-out_infinite] border-r-2 ml-1 h-6 md:h-8 inline-block align-middle transition-colors duration-300 ${["border-[#81a1c1]", "border-primary", "border-[#95bf47]", "border-[#c45cff]"][loopNum % PHRASES.length]}`}></span></h2>
               </div>
-              <div className="pt-4 max-w-2xl mx-auto lg:mx-0">
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  I help healthcare practices stay focused on patient care through dependable coordination and administration. For service businesses, I build <strong className="text-foreground font-semibold">GoHighLevel</strong> systems that capture, nurture, and follow up with leads; for e-commerce brands, I optimize <strong className="text-foreground font-semibold">Shopify</strong> stores for smoother customer journeys and stronger conversions. As an <strong className="text-foreground font-semibold">Administrative/Executive Support</strong> partner, I keep calendars, inboxes, documents, meetings, and priorities organized so leaders can make faster decisions and move their business forward.
+              <div className="w-full pt-4 max-w-3xl mx-auto lg:mx-0">
+                <p className="max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
+                  Dependable coordination, growth systems, and executive support that keep your business moving while you stay focused on the work that matters.
                 </p>
               </div>
             </div>
@@ -209,9 +287,9 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-24 px-6 relative bg-white/[0.02] border-y border-white/[0.05]">
+      <section id="services" className="section-reveal py-16 md:py-20 px-6 relative bg-white/[0.02] border-y border-white/[0.05]">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-12">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Services</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Practical support that keeps operations organized, customer experiences strong, and growth systems moving.
@@ -219,8 +297,8 @@ const Index = () => {
           </div>
 
           {/* Healthcare VA Services */}
-          <div className="mb-16">
-            <div className="mb-8 flex items-center gap-6">
+          <div className="mb-10 md:mb-12">
+            <div className="mb-5 flex items-center gap-6">
               <h3 className="text-2xl font-bold tracking-tight text-[#81a1c1]">Healthcare Virtual Assistant</h3>
               <div className="h-[1px] flex-grow bg-gradient-to-r from-[#81a1c1]/50 to-transparent"></div>
             </div>
@@ -250,30 +328,13 @@ const Index = () => {
                   service: "End-to-end practice support covering inbox management, secure records organization, and daily task coordination.",
                   result: "A highly organized, efficient medical office environment with consistent communication and reliable daily operations."
                 }
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#81a1c1]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(129,161,193,0.1)] group flex flex-col">
-                  <div className="h-14 w-14 rounded-2xl bg-[#81a1c1]/10 flex items-center justify-center text-[#81a1c1] mb-6 group-hover:scale-110 transition-transform">
-                    <item.icon className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-6">{item.title}</h3>
-                  <div className="space-y-4 flex-grow">
-                    <div>
-                      <span className="text-xs font-bold text-[#81a1c1] uppercase tracking-wider block mb-2">The Service</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              ].map((item) => <ServiceAccordion key={item.title} item={item} color="text-[#81a1c1]" iconBackground="bg-[#81a1c1]/10" />)}
             </div>
           </div>
 
           {/* GoHighLevel Services */}
-          <div className="mb-16">
-            <div className="mb-8 flex items-center gap-6">
+          <div className="mb-10 md:mb-12">
+            <div className="mb-5 flex items-center gap-6">
               <h3 className="text-2xl font-bold tracking-tight text-primary">GoHighLevel Services</h3>
               <div className="h-[1px] flex-grow bg-gradient-to-r from-primary/50 to-transparent"></div>
             </div>
@@ -315,34 +376,17 @@ const Index = () => {
                   service: "Seamlessly connecting GHL with payment gateways (Stripe/PayPal), third-party forms, and external tech stacks.",
                   result: "A unified, 'all-in-one' backend ecosystem where your tools actually talk to each other without technical glitches."
                 }
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-primary/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(var(--primary),0.1)] group flex flex-col">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                    <item.icon className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-6">{item.title}</h3>
-                  <div className="space-y-4 flex-grow">
-                    <div>
-                      <span className="text-xs font-bold text-primary uppercase tracking-wider block mb-2">The Service</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              ].map((item) => <ServiceAccordion key={item.title} item={item} color="text-primary" iconBackground="bg-primary/10" />)}
             </div>
           </div>
 
           {/* Shopify Services */}
           <div>
-            <div className="mb-8 flex items-center gap-6">
+            <div className="mb-5 flex items-center gap-6">
               <h3 className="text-2xl font-bold tracking-tight text-[#95bf47]">Shopify Services</h3>
               <div className="h-[1px] flex-grow bg-gradient-to-r from-[#95bf47]/50 to-transparent"></div>
             </div>
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   icon: Store,
@@ -374,55 +418,13 @@ const Index = () => {
                   service: "Navigation and user flow improvements, checkout optimization, and basic analytics review and suggestions.",
                   result: "A frictionless buying journey that reduces cart abandonment and encourages repeat purchases."
                 }
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#95bf47]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(149,191,71,0.1)] group flex flex-col w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
-                  <div className="h-14 w-14 rounded-2xl bg-[#95bf47]/10 flex items-center justify-center text-[#95bf47] mb-6 group-hover:scale-110 transition-transform">
-                    <item.icon className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-6">{item.title}</h3>
-                  <div className="space-y-4 flex-grow">
-                    <div>
-                      <span className="text-xs font-bold text-[#95bf47] uppercase tracking-wider block mb-2">The Service</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Powerful Combinations */}
-          <div className="mt-16 grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="p-8 md:p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#81a1c1]/10 via-background to-primary/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-background/50 backdrop-blur-sm -z-10"></div>
-              <div className="h-12 w-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform">
-                <Network className="h-6 w-6 text-foreground" />
-              </div>
-              <h4 className="text-xl font-bold mb-4">Healthcare + GoHighLevel</h4>
-              <p className="text-muted-foreground leading-relaxed">
-                Elevate your clinic's digital presence with powerful automation. I leverage GoHighLevel to run engaging campaigns through social media to ensure people see your presence, while seamlessly automating patient intake, reminders, and follow-ups.
-              </p>
-            </div>
-            
-            <div className="p-8 md:p-10 rounded-3xl border border-white/10 bg-gradient-to-br from-[#95bf47]/10 via-background to-primary/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-background/50 backdrop-blur-sm -z-10"></div>
-              <div className="h-12 w-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform">
-                <Workflow className="h-6 w-6 text-foreground" />
-              </div>
-              <h4 className="text-xl font-bold mb-4">Shopify + GoHighLevel</h4>
-              <p className="text-muted-foreground leading-relaxed">
-                Connect your e-commerce store with an advanced CRM. Turn one-time buyers into loyal customers with automated post-purchase nurture campaigns, review requests, and VIP offers that maximize lifetime value.
-              </p>
+              ].map((item) => <ServiceAccordion key={item.title} item={item} color="text-[#95bf47]" iconBackground="bg-[#95bf47]/10" />)}
             </div>
           </div>
 
           {/* Administrative & Executive Services */}
-          <div className="mt-16">
-            <div className="mb-8 flex items-center gap-6">
+          <div className="mt-10 md:mt-12">
+            <div className="mb-5 flex items-center gap-6">
               <h3 className="text-2xl font-bold tracking-tight text-[#c45cff]">Administrative/Executive Support</h3>
               <div className="h-[1px] flex-grow bg-gradient-to-r from-[#c45cff]/50 to-transparent"></div>
             </div>
@@ -432,31 +434,22 @@ const Index = () => {
                 { icon: Mail, title: "Inbox & Communication Management", service: "Triage incoming messages, identify urgent requests, draft professional responses, and maintain a reliable follow-up queue.", result: "A clearer inbox, quicker response times, and consistent communication with clients, vendors, and internal teams." },
                 { icon: ClipboardList, title: "Task, Deadline & Action-Item Tracking", service: "Organize requests, assign ownership, monitor deadlines and dependencies, and proactively follow up on outstanding work.", result: "Teams have accountability and visibility, enabling faster execution and fewer missed commitments." },
                 { icon: FileText, title: "Digital File & Document Management", service: "Create organized folder structures, standardize file naming, maintain document indexes, and support version control.", result: "Information is easy to find, documentation stays current, and the business runs with greater clarity and confidence." }
-              ].map((item, i) => (
-                <div key={i} className="p-8 rounded-3xl border border-white/5 bg-card hover:border-[#c45cff]/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(196,92,255,0.18)] group flex flex-col">
-                  <div className="h-14 w-14 rounded-2xl bg-[#c45cff]/10 flex items-center justify-center text-[#c45cff] mb-6 group-hover:scale-110 transition-transform"><item.icon className="h-7 w-7" /></div>
-                  <h3 className="text-xl font-bold mb-6">{item.title}</h3>
-                  <div className="space-y-4 flex-grow">
-                    <div><span className="text-xs font-bold text-[#c45cff] uppercase tracking-wider block mb-2">The Service</span><p className="text-sm text-muted-foreground leading-relaxed">{item.service}</p></div>
-                    <div><span className="text-xs font-bold text-foreground uppercase tracking-wider block mb-2">The Result</span><p className="text-sm text-muted-foreground leading-relaxed">{item.result}</p></div>
-                  </div>
-                </div>
-              ))}
+              ].map((item) => <ServiceAccordion key={item.title} item={item} color="text-[#c45cff]" iconBackground="bg-[#c45cff]/10" />)}
             </div>
           </div>
         </div>
       </section>
 
       {/* How I Help Section */}
-      <section className="py-24 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-y border-white/[0.05]">
+      <section className="section-reveal py-14 md:py-16 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-y border-white/[0.05]">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">How I Help Your Business Grow</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Strategic improvements designed to increase conversions and streamline operations.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {[
               { icon: Store, text: "Optimize your Shopify store for conversions" },
               { icon: Target, text: "Identify gaps in your customer journey" },
@@ -468,11 +461,11 @@ const Index = () => {
               { icon: ClipboardList, text: "Turn tasks and action items into clear ownership and follow-through", color: "text-[#c45cff]", bg: "bg-[#c45cff]/10 border border-[#c45cff]/10", hover: "hover:border-[#c45cff]/30" },
               { icon: FileText, text: "Build organized inbox and document systems that save time and reduce risk", color: "text-[#c45cff]", bg: "bg-[#c45cff]/10 border border-[#c45cff]/10", hover: "hover:border-[#c45cff]/30" }
             ].map((item, i) => (
-              <div key={i} className={`flex items-center gap-5 p-6 rounded-3xl border border-white/5 bg-[#0a0a0a] ${item.hover ?? "hover:border-primary/30"} transition-all group shadow-sm`}>
-                <div className={`h-14 w-14 shrink-0 rounded-2xl ${item.bg ?? "bg-primary/10 border border-primary/10"} flex items-center justify-center ${item.color ?? "text-primary"} group-hover:scale-110 transition-transform`}>
-                  <item.icon className="h-6 w-6" />
+              <div key={i} className={`flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#0a0a0a] ${item.hover ?? "hover:border-primary/30"} transition-all group shadow-sm`}>
+                <div className={`h-11 w-11 shrink-0 rounded-xl ${item.bg ?? "bg-primary/10 border border-primary/10"} flex items-center justify-center ${item.color ?? "text-primary"} group-hover:scale-110 transition-transform`}>
+                  <item.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold leading-snug text-foreground/90">{item.text}</h3>
+                <h3 className="text-base font-semibold leading-snug text-foreground/90">{item.text}</h3>
               </div>
             ))}
           </div>
@@ -480,8 +473,8 @@ const Index = () => {
       </section>
 
       {/* How I Work Section */}
-      <section className="py-24 px-6 container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
+      <section id="process" className="section-reveal py-16 md:py-20 px-6 container mx-auto max-w-6xl">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">How I Work</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             A streamlined process tailored to your specific platform needs.
@@ -489,12 +482,12 @@ const Index = () => {
         </div>
 
         {/* Healthcare Workflow */}
-        <div className="mb-20">
-          <div className="mb-10 flex items-center gap-6">
+        <div className="mb-12">
+          <div className="mb-6 flex items-center gap-6">
             <h3 className="text-2xl font-bold tracking-tight text-[#81a1c1]">Healthcare Workflow</h3>
             <div className="h-[1px] flex-grow bg-gradient-to-r from-[#81a1c1]/50 to-transparent"></div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-4 relative">
             <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#81a1c1]/20 to-transparent -z-10"></div>
             {[
               { num: "01", icon: Activity, title: "Understand Practice", desc: "Review current admin processes and patient flow" },
@@ -502,7 +495,7 @@ const Index = () => {
               { num: "03", icon: Users, title: "Implement Systems", desc: "Implement patient coordination and follow-up routines" },
               { num: "04", icon: Calendar, title: "Daily Management", desc: "Ongoing support for appointments and daily admin tasks" },
             ].map((step, i) => (
-              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-[#81a1c1]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+              <div key={i} className="relative min-w-[78%] snap-start p-6 rounded-2xl border border-white/5 bg-card hover:border-[#81a1c1]/30 transition-all group flex flex-col items-center text-center overflow-hidden md:min-w-0">
                 <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-[#81a1c1]/[0.05] transition-colors pointer-events-none">{step.num}</div>
                 <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#81a1c1] mb-6 group-hover:scale-110 transition-transform z-10">
                   <step.icon className="h-7 w-7" />
@@ -515,12 +508,12 @@ const Index = () => {
         </div>
 
         {/* GHL Workflow */}
-        <div className="mb-20">
-          <div className="mb-10 flex items-center gap-6">
+        <div className="mb-12">
+          <div className="mb-6 flex items-center gap-6">
             <h3 className="text-2xl font-bold tracking-tight text-primary">GoHighLevel Workflow</h3>
             <div className="h-[1px] flex-grow bg-gradient-to-r from-primary/50 to-transparent"></div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-4 relative">
             <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10"></div>
             {[
               { num: "01", icon: Target, title: "Understand Your Business", desc: "I learn about your goals, target audience, and current process" },
@@ -528,7 +521,7 @@ const Index = () => {
               { num: "03", icon: Zap, title: "Set Up Automation", desc: "I implement follow-ups, workflows, and booking systems" },
               { num: "04", icon: Rocket, title: "Test & Optimize", desc: "I ensure everything runs smoothly and is ready for use" },
             ].map((step, i) => (
-              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-primary/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+              <div key={i} className="relative min-w-[78%] snap-start p-6 rounded-2xl border border-white/5 bg-card hover:border-primary/30 transition-all group flex flex-col items-center text-center overflow-hidden md:min-w-0">
                 <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-primary/[0.05] transition-colors pointer-events-none">{step.num}</div>
                 <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform z-10">
                   <step.icon className="h-7 w-7" />
@@ -541,12 +534,12 @@ const Index = () => {
         </div>
 
         {/* Shopify Workflow */}
-        <div className="mb-20">
-          <div className="mb-10 flex items-center gap-6">
+        <div className="mb-12">
+          <div className="mb-6 flex items-center gap-6">
             <h3 className="text-2xl font-bold tracking-tight text-[#95bf47]">Shopify Workflow</h3>
             <div className="h-[1px] flex-grow bg-gradient-to-r from-[#95bf47]/50 to-transparent"></div>
           </div>
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 relative">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible md:pb-0 lg:grid-cols-5 relative">
             <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#95bf47]/20 to-transparent -z-10"></div>
             {[
               { num: "01", icon: Store, title: "Review Store", desc: "Review store design and structure" },
@@ -555,7 +548,7 @@ const Index = () => {
               { num: "04", icon: ShoppingBag, title: "Add Elements", desc: "Add upsells, bundles, and trust elements" },
               { num: "05", icon: TrendingUp, title: "Prepare Conversions", desc: "Prepare store for higher conversions" },
             ].map((step, i) => (
-              <div key={i} className="relative p-6 rounded-3xl border border-white/5 bg-card hover:border-[#95bf47]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+              <div key={i} className="relative min-w-[78%] snap-start p-5 rounded-2xl border border-white/5 bg-card hover:border-[#95bf47]/30 transition-all group flex flex-col items-center text-center overflow-hidden md:min-w-0">
                 <div className="absolute -top-4 -right-2 text-7xl font-black text-white/[0.02] group-hover:text-[#95bf47]/[0.05] transition-colors pointer-events-none">{step.num}</div>
                 <div className="h-14 w-14 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#95bf47] mb-5 group-hover:scale-110 transition-transform z-10">
                   <step.icon className="h-6 w-6" />
@@ -569,11 +562,11 @@ const Index = () => {
 
         {/* Administrative & Executive Workflow */}
         <div>
-          <div className="mb-10 flex items-center gap-6">
+          <div className="mb-6 flex items-center gap-6">
             <h3 className="text-2xl font-bold tracking-tight text-[#c45cff]">Administrative/Executive Workflow</h3>
             <div className="h-[1px] flex-grow bg-gradient-to-r from-[#c45cff]/50 to-transparent"></div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-4 relative">
             <div className="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#c45cff]/20 to-transparent -z-10"></div>
             {[
               { num: "01", icon: Target, title: "Align on Priorities", desc: "Learn your goals, preferred communication style, and the work that needs attention first" },
@@ -581,7 +574,7 @@ const Index = () => {
               { num: "03", icon: CheckCircle2, title: "Coordinate & Follow Through", desc: "Track details, manage deadlines, and keep stakeholders informed with timely follow-ups" },
               { num: "04", icon: TrendingUp, title: "Refine for Growth", desc: "Improve routines and reporting so your business gains back time and operates more smoothly" },
             ].map((step, i) => (
-              <div key={i} className="relative p-8 rounded-3xl border border-white/5 bg-card hover:border-[#c45cff]/30 transition-all group flex flex-col items-center text-center overflow-hidden">
+              <div key={i} className="relative min-w-[78%] snap-start p-6 rounded-2xl border border-white/5 bg-card hover:border-[#c45cff]/30 transition-all group flex flex-col items-center text-center overflow-hidden md:min-w-0">
                 <div className="absolute -top-4 -right-2 text-8xl font-black text-white/[0.02] group-hover:text-[#c45cff]/[0.05] transition-colors pointer-events-none">{step.num}</div>
                 <div className="h-16 w-16 rounded-full bg-background border border-white/10 flex items-center justify-center text-[#c45cff] mb-6 group-hover:scale-110 transition-transform z-10"><step.icon className="h-7 w-7" /></div>
                 <h3 className="text-xl font-bold mb-3 z-10">{step.title}</h3>
@@ -593,7 +586,7 @@ const Index = () => {
       </section>
 
       {/* Selected Works - Reduced for brevity, showing structure */}
-      <section id="work" className="py-24 px-6 relative bg-white/[0.02] border-y border-white/[0.05]">
+      <section id="work" className="section-reveal py-24 px-6 relative bg-white/[0.02] border-y border-white/[0.05]">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Selected Works</h2>
@@ -601,22 +594,22 @@ const Index = () => {
 
           <Tabs defaultValue="ghl" className="w-full">
             <div className="flex justify-center mb-12">
-              <TabsList className="h-auto flex-wrap justify-center bg-card border border-white/10 p-1.5 rounded-3xl">
+              <TabsList className="h-auto flex-wrap justify-center gap-1 bg-card border border-white/10 p-1.5 rounded-2xl shadow-[0_12px_40px_-24px_hsl(var(--primary)/0.7)]">
                 <TabsTrigger 
                   value="ghl" 
-                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+                  className="relative rounded-xl px-4 sm:px-8 py-3 text-base transition-all after:absolute after:inset-x-4 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:bg-current after:transition-transform data-[state=active]:-translate-y-0.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[0_8px_18px_-10px_hsl(var(--primary))] data-[state=active]:after:scale-x-100"
                 >
                   GoHighLevel
                 </TabsTrigger>
                 <TabsTrigger 
                   value="shopify" 
-                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#95bf47] data-[state=active]:text-white transition-all"
+                  className="relative rounded-xl px-4 sm:px-8 py-3 text-base transition-all after:absolute after:inset-x-4 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:bg-current after:transition-transform data-[state=active]:-translate-y-0.5 data-[state=active]:bg-[#95bf47] data-[state=active]:text-white data-[state=active]:shadow-[0_8px_18px_-10px_rgba(149,191,71,0.8)] data-[state=active]:after:scale-x-100"
                 >
                   Shopify
                 </TabsTrigger>
                 <TabsTrigger 
                   value="admin" 
-                  className="rounded-full px-4 sm:px-8 py-3 text-base data-[state=active]:bg-[#c45cff] data-[state=active]:text-[#160d1f] transition-all"
+                  className="relative rounded-xl px-4 sm:px-8 py-3 text-base transition-all after:absolute after:inset-x-4 after:bottom-1 after:h-0.5 after:origin-center after:scale-x-0 after:bg-current after:transition-transform data-[state=active]:-translate-y-0.5 data-[state=active]:bg-[#c45cff] data-[state=active]:text-[#160d1f] data-[state=active]:shadow-[0_8px_18px_-10px_rgba(196,92,255,0.8)] data-[state=active]:after:scale-x-100"
                 >
                   Administrative/Executive Support
                 </TabsTrigger>
@@ -741,8 +734,25 @@ const Index = () => {
                     <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Form and survey creation", "Custom field mapping", "Dropdown field configuration", "CRM data capture", "Lead information collection", "Form customization and branding", "Form publishing and testing", "Lead segmentation preparation", "Multi-step survey setup"]} /></InfoCard>
                     <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created and tested a Website Design Intake Form capturing contact information, service interest, and budget range, mapped to CRM fields for segmentation, qualification, and workflows.</p></InfoCard>
                   </div>
-                  <div className="mt-8 p-6 md:p-8 rounded-3xl bg-card border border-white/5"><h5 className="text-lg font-bold mb-4">How It Works: Form → CRM → Automation</h5><p className="text-muted-foreground leading-relaxed">1. Lead completes the form and provides contact details, service interest, and budget. 2. Data enters the CRM through mapped Service Interest and Budget fields. 3. Data becomes actionable for segmentation, qualification, and workflow triggers. Multiple test entries were submitted and verified on the corresponding CRM contact records.</p></div>
-                  <div className="mt-8 max-w-3xl"><MediaCard src="/form/website-design-intake.png" alt="Screenshot 1 - Website Design Intake Form" /></div>
+                  <div className="mt-8 rounded-3xl border border-white/5 bg-card p-6 md:p-8">
+                    <h5 className="mb-5 text-lg font-bold">How It Works: Form → CRM → Automation</h5>
+                    <ol className="space-y-4">
+                      {[
+                        "Lead completes the form and provides contact details, service interest, and budget.",
+                        "Data enters the CRM through mapped Service Interest and Budget fields.",
+                        "Data becomes actionable for segmentation, qualification, and workflow triggers."
+                      ].map((step, index) => (
+                        <li key={step} className="flex items-start gap-4 text-muted-foreground leading-relaxed">
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{index + 1}</span>
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                    <p className="mt-5 border-t border-white/10 pt-5 text-sm leading-relaxed text-muted-foreground">
+                      Multiple test entries were submitted and verified on the corresponding CRM contact records.
+                    </p>
+                  </div>
+                  <div className="mx-auto mt-8 max-w-3xl"><MediaCard src="/form/website-design-intake.png" alt="Screenshot 1 - Website Design Intake Form" /></div>
                 </div>
                 <div className="ghl-case-study">
                   <div className="text-xs font-bold text-primary uppercase tracking-wider mb-4">Case Study 05</div>
@@ -851,7 +861,7 @@ const Index = () => {
                     <InfoCard icon={LayoutDashboard} title="Skills Demonstrated"><BulletList items={["Social media content planning", "Content calendar creation", "Content organization", "Promotional content planning", "Educational content planning", "Engagement content planning", "Caption idea development", "Visual content planning", "Platform-based content organization", "Spreadsheet management"]} /></InfoCard>
                     <InfoCard icon={Zap} title="Result" highlighted><p className="text-foreground leading-relaxed">Created a 2-week calendar containing 10 planned posts for Bright Path Consulting, organized by date, platform, caption idea, and visual concept so another person could understand what to post and when.</p></InfoCard>
                   </div>
-                  <div className="mt-8 max-w-4xl"><MediaCard src="/social-media/content-calendar.png" alt="Social Media Planner" caption="Social Media Content Planning - 2-Week Content Calendar. A sample content calendar created for a fictional consulting business before scheduling and publishing, with 10 posts across different purposes, platforms, caption directions, and visual ideas." /></div>
+                  <div className="mx-auto mt-8 max-w-4xl"><MediaCard src="/social-media/content-calendar.png" alt="Social Media Planner" caption="Social Media Content Planning - 2-Week Content Calendar. A sample content calendar created for a fictional consulting business before scheduling and publishing, with 10 posts across different purposes, platforms, caption directions, and visual ideas." /></div>
                 </div>
                 {false && (<>
                 {/* Legacy CRM and calendar case studies retained in source for reference */}
@@ -1370,26 +1380,26 @@ const Index = () => {
       </section>
 
       {/* How I Use GHL with Shopify */}
-      <section className="py-24 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-b border-white/[0.05]">
+      <section className="section-reveal py-14 md:py-16 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-b border-white/[0.05]">
         <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">How I Use GoHighLevel with Shopify</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               I use GoHighLevel to support and enhance Shopify stores through automation:
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-3 md:gap-4">
             {[
               { icon: ShoppingBag, text: "Recover abandoned carts with email/SMS follow-ups" },
               { icon: Mail, text: "Send post-purchase messages and upsell offers" },
               { icon: Users, text: "Build customer retention workflows" },
               { icon: Target, text: "Track and manage customer interactions" }
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-6 p-8 rounded-3xl border border-white/5 bg-[#0a0a0a] hover:border-primary/30 transition-all group shadow-sm">
-                <div className="h-16 w-16 shrink-0 rounded-2xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <item.icon className="h-7 w-7" />
+              <div key={i} className="flex items-center gap-4 p-5 rounded-2xl border border-white/5 bg-[#0a0a0a] hover:border-primary/30 transition-all group shadow-sm">
+                <div className="h-12 w-12 shrink-0 rounded-xl bg-primary/10 border border-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                  <item.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-bold leading-snug text-foreground/90">{item.text}</h3>
+                <h3 className="text-base md:text-lg font-bold leading-snug text-foreground/90">{item.text}</h3>
               </div>
             ))}
           </div>
@@ -1397,15 +1407,15 @@ const Index = () => {
       </section>
 
       {/* What You Can Expect Section */}
-      <section className="py-24 px-6 relative bg-white/[0.02] border-b border-white/[0.05]">
+      <section className="section-reveal py-14 md:py-16 px-6 relative bg-white/[0.02] border-b border-white/[0.05]">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">What You Can Expect</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               The tangible results and experience of having a dedicated systems and administrative expert on your team.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {[
               {
                 icon: Activity,
@@ -1444,11 +1454,11 @@ const Index = () => {
                 shadowHover: "hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.05)]"
               }
             ].map((item, i) => (
-              <div key={i} className={`p-8 rounded-3xl border border-white/5 bg-card transition-all group flex flex-col ${item.borderHover} ${item.shadowHover}`}>
-                <div className={`h-14 w-14 rounded-2xl ${item.bg} flex items-center justify-center ${item.color} mb-6 group-hover:scale-110 transition-transform`}>
-                  <item.icon className="h-7 w-7" />
+              <div key={i} className={`p-5 rounded-2xl border border-white/5 bg-card transition-all group flex flex-col ${item.borderHover} ${item.shadowHover}`}>
+                <div className={`h-11 w-11 rounded-xl ${item.bg} flex items-center justify-center ${item.color} mb-4 group-hover:scale-110 transition-transform`}>
+                  <item.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">{item.title}</h3>
+                <h3 className="text-lg font-bold mb-3">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed flex-grow">{item.desc}</p>
               </div>
             ))}
@@ -1457,7 +1467,7 @@ const Index = () => {
       </section>
 
       {/* My Toolkit Section */}
-      <section className="py-24 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-b border-white/[0.05]">
+      <section className="section-reveal py-24 px-6 relative bg-gradient-to-b from-transparent via-white/[0.02] to-transparent border-b border-white/[0.05]">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">My Toolkit</h2>
@@ -1513,7 +1523,7 @@ const Index = () => {
       </section>
 
       {/* Footer CTA */}
-      <footer className="py-24 px-6 text-center border-t border-white/[0.05] bg-white/[0.02]">
+      <footer className="section-reveal py-24 px-6 text-center border-t border-white/[0.05] bg-white/[0.02]">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Let's Build Something Great Together</h2>
           <p className="text-muted-foreground mb-10 text-lg">
