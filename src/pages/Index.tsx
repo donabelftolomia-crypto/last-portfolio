@@ -196,9 +196,9 @@ const Index = () => {
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/50 backdrop-blur-md">
         <div className="container mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight">
+          <a href="#hero" aria-label="Back to Donabel's hero section" className="text-xl font-bold tracking-tight transition-colors hover:text-primary">
             Donabel<span className="text-primary">.</span>
-          </div>
+          </a>
           <div className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
             {[["services", "Services"], ["process", "Process"], ["work", "Selected work"]].map(([id, label]) => (
               <a key={id} href={`#${id}`} className={`relative py-2 transition-colors ${activeSection === id ? "text-foreground" : "hover:text-foreground"}`}>
@@ -219,7 +219,7 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="section-reveal pt-32 pb-20 px-6 container mx-auto">
+      <section id="hero" className="section-reveal pt-32 pb-20 px-6 container mx-auto">
 <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 max-w-6xl mx-auto">
           <div className="relative z-10 shrink-0 -mt-8 lg:-mt-40 flex flex-col items-center">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] group flex items-end justify-center">
